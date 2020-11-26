@@ -68,21 +68,21 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 n = 100001
-prime = [True] * (n + 1)
+prime = [1] * (n + 1)
 ans = [0] * (n + 1)
-preC1, preC2, preC3, preC4, preC5 = [0] * (n + 1), [0] * (n + 1), [0] * (n + 1), [0] * (n + 1), [0] * (n + 1)
+preCF = [[0, 0, 0, 0, 0] for _ in range(n + 1)]
 
 
-def seive():
+def sV():
     p = 2
     while(p * p <= n):
         if(prime[p]):
             for i in range(p * p, n + 1, p):
-                prime[i] = False
+                prime[i] = 0
         p += 1
 
 
-def pf():
+def pF():
     for N in range(2, n + 1):
         if(prime[N]):
             ans[N] = 1
@@ -102,49 +102,22 @@ def pf():
 
 
 def pC():
-    start = 0
-    for _ in range(n + 1):
-        if(ans[_] == 1):
-            start += 1
-        preC1[_] = start
-    start = 0
-    for _ in range(n + 1):
-        if(ans[_] == 2):
-            start += 1
-        preC2[_] = start
-    start = 0
-    for _ in range(n + 1):
-        if(ans[_] == 3):
-            start += 1
-        preC3[_] = start
-    start = 0
-    for _ in range(n + 1):
-        if(ans[_] == 4):
-            start += 1
-        preC4[_] = start
-    for _ in range(n + 1):
-        if(ans[_] == 5):
-            start += 1
-        preC5[_] = start
+    for i in range(0, 5):
+        start = 0
+        for _ in range(n + 1):
+            if(ans[_] == i + 1):
+                start += 1
+            preCF[_][i] = start
 
 
 def solve():
     a, b, k = readints()
-    if(k == 1):
-        print(preC1[b] - preC1[a - 1])
-    elif(k == 2):
-        print(preC2[b] - preC2[a - 1])
-    elif(k == 3):
-        print(preC3[b] - preC3[a - 1])
-    elif(k == 4):
-        print(preC4[b] - preC4[a - 1])
-    elif(k == 5):
-        print(preC5[b] - preC5[a - 1])
+    print(preCF[b][k - 1] - preCF[a - 1][k - 1])
 
 
 def main():
-    seive()
-    pf()
+    sV()
+    pF()
     pC()
     for _ in range(readint()):
         solve()
