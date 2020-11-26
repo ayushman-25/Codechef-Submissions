@@ -67,9 +67,10 @@ readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
-n = 100000
+n = 100001
 prime = [True] * (n + 1)
 ans = [0] * (n + 1)
+preC1, preC2, preC3, preC4, preC5 = [0] * (n + 1), [0] * (n + 1), [0] * (n + 1), [0] * (n + 1), [0] * (n + 1)
 
 
 def seive():
@@ -83,6 +84,9 @@ def seive():
 
 def pf():
     for N in range(2, n + 1):
+        # if(prime[N]):
+        #     ans[N] = 1
+        #     continue
         prim = []
         curr = N
         while(N % 2 == 0):
@@ -93,25 +97,58 @@ def pf():
                 prim.append(i)
                 N /= i
         if(N > 2):
-            prim.append(n)
+            prim.append(int(N))
+        # print(curr, prim)
         for i in set(prim):
             if(prime[i]):
                 ans[curr] += 1
 
 
+def pC():
+    start = 0
+    for _ in range(n + 1):
+        if(ans[_] == 1):
+            start += 1
+        preC1[_] = start
+    start = 0
+    for _ in range(n + 1):
+        if(ans[_] == 2):
+            start += 1
+        preC2[_] = start
+    start = 0
+    for _ in range(n + 1):
+        if(ans[_] == 3):
+            start += 1
+        preC3[_] = start
+    start = 0
+    for _ in range(n + 1):
+        if(ans[_] == 4):
+            start += 1
+        preC4[_] = start
+    for _ in range(n + 1):
+        if(ans[_] == 5):
+            start += 1
+        preC5[_] = start
+
+
 def solve():
     a, b, k = readints()
-    anss = 0
-    # print(ans)
-    for i in range(a, b + 1):
-        if(ans[i] == k):
-            anss += 1
-    print(anss)
+    if(k == 1):
+        print(preC1[b] - preC1[a - 1])
+    elif(k == 2):
+        print(preC2[b] - preC2[a - 1])
+    elif(k == 3):
+        print(preC3[b] - preC3[a - 1])
+    elif(k == 4):
+        print(preC4[b] - preC4[a - 1])
+    elif(k == 5):
+        print(preC5[b] - preC5[a - 1])
 
 
 def main():
     seive()
     pf()
+    pC()
     # print(prime)
     for _ in range(readint()):
         solve()

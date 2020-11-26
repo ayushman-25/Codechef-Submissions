@@ -1,10 +1,7 @@
 from random import *
 print(15)
 for _ in range(15):
-    n = 5
-    print(n)
-    l1 = []
-    for i in range(n):
-        l1.append(randint(1, 4))
-
-    print(*l1)
+    a = randint(1, 1000)
+    b = randint(a, 1000)
+    k = randint(1, 5)
+    print(a, b, k)
