@@ -84,24 +84,21 @@ def seive():
 
 def pf():
     for N in range(2, n + 1):
-        # if(prime[N]):
-        #     ans[N] = 1
-        #     continue
-        prim = []
+        if(prime[N]):
+            ans[N] = 1
+            continue
+        prim = set()
         curr = N
         while(N % 2 == 0):
-            prim.append(2)
+            prim.add(2)
             N /= 2
         for i in range(3, int(n ** (1 / 2)) + 1, 2):
             while(N % i == 0):
-                prim.append(i)
+                prim.add(i)
                 N /= i
         if(N > 2):
-            prim.append(int(N))
-        # print(curr, prim)
-        for i in set(prim):
-            if(prime[i]):
-                ans[curr] += 1
+            prim.add(int(N))
+        ans[curr] += len(prim)
 
 
 def pC():
@@ -149,7 +146,6 @@ def main():
     seive()
     pf()
     pC()
-    # print(prime)
     for _ in range(readint()):
         solve()
 
