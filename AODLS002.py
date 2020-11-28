@@ -8,8 +8,6 @@
 
 import os
 import sys
-from heapq import *
-# from queue import PriorityQueue
 from io import BytesIO, IOBase
 
 BUFSIZE = 8192
@@ -70,45 +68,12 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    # N = 2 * int(1e5) + 5
-    n, k, b, c = readints()
-    a = readarri()
-    for i in range(n):
-        a[i] += int(1e9)
-    a.sort()
-    a.reverse()
-    ans = (1 << 60)
-    if(5 * c <= b):
-        sum = 0
-        for i in range(k - 1):
-            sum += a[i]
-        for i in range(n - k + 1):
-            sum += a[i + k - 1]
-            ans = min(ans, (a[i] * k - sum) * c)
-            sum -= a[i]
-    else:
-        a.reverse()
-        for m in range(5):
-            sum = 0
-            heap = []
-            heapify(heap)
-            for i in range(n):
-                bb = a[i]
-                d = (m + 5 - a[i] % 5) % 5
-                bb = (bb + d) // 5
-                cc = d * c - bb * b
-                heappush(heap, -cc)
-                sum += cc
-                while(len(heap) > k):
-                    sum -= -(heappop(heap))
-                if(len(heap) == k):
-                    ans = min(ans, sum + k * bb * b)
-    print(ans)
+    print(readstr()[::-1])
 
 
 def main():
-    # for _ in range(readint()):
-    solve()
+    for _ in range(readint()):
+        solve()
 
 
 if __name__ == "__main__":
