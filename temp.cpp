@@ -1,64 +1,35 @@
-#include<queue>
-#include<vector>
-#include<cstdio>
-#include<cstring>
-#include<iostream>
-#include<algorithm>
+#include<bits/stdc++.h>
 using namespace std;
- 
-const int N = 200005;
- 
-int k, n, b, c;
- 
-int m;
- 
-int a[N];
- 
+
 int main() {
-    scanf("%d%d%d%d", &n, &k, &b, &c);
-    for (int i = 0; i < n; ++i) {
-        scanf("%d", a + i);
-        a[i] += 1000000000;
+    int n1, n2, i;
+    cin >> n1 >> n2;
+    string sn1 = to_string(n1), sn2 = to_string(n2);
+    int m = sn1.size(), n = sn2.size();
+    int mn = min(m, n);
+    vector<string> ans(4);
+    for(i = 0; i < mn; i++) {
+        ans[0] += sn1[i]; ans[0] += sn2[i];
+        ans[1] += sn2[i]; ans[1] += sn1[i];
+        ans[2] += sn1[mn-i-1]; ans[2] += sn2[mn-i-1];
+        ans[3] += sn2[mn-i-1]; ans[3] += sn1[mn-i-1];
     }
-
-
-    sort(a, a + n);
-    reverse(a, a + n);
-    long long ans = 1ll << 60;
-    cout << ans << "\n";
-    if (5 * c <= b) {
-        long long sum = 0;
-        for (int i = 0; i < k - 1; ++i) {
-            sum += a[i];
-        }
-        for (int i = 0; i + k <= n; ++i) {
-            sum += a[i + k - 1];
-            ans = min(ans, ((long long)a[i] * k - sum) * c);
-            sum -= a[i];
-        }
-    } else {
-        reverse(a, a + n);
-        for (m = 0; m < 5; ++m) {
-            long long sum = 0;
-            priority_queue<long long> heap;
-            for (int i = 0; i < n; ++i) {
-                int bb = a[i], d = (m + 5 - a[i] % 5) % 5;
-                bb = (bb + d) / 5;
-                long long cc = d * c - (long long)bb * b;
-                cout << "cc " << cc << "\n";
-                heap.push(cc);
-                sum += cc;
-                while (heap.size() > k) {
-                    // cout << heap.top() << ": " << "\n";
-                    sum -= heap.top();
-                    heap.pop();
-                }
-                if (heap.size() == k) {
-                    ans = min(ans, sum + (long long)k * bb * b);
-                }
-            }
-        }
+    if(m < n) {
+        ans[0] += sn2.substr(i+1);
+        ans[1] += sn2.substr(i+1);
+        reverse(sn2.begin(), sn2.end());
+        ans[3] += sn2.substr(i+1);
+        ans[4] += sn2.substr(i+1);
+    } else if(m > n) {
+        ans[0] += sn1.substr(i+1);
+        ans[1] += sn1.substr(i+1);
+        reverse(sn1.begin(), sn1.end());
+        ans[3] += sn1.substr(i+1);
+        ans[4] += sn1.substr(i+1);
     }
-    cout << ans << endl;
-    return 0;
+    int maxans = 0;
+    for(string i: ans) {
+        maxans = max(maxans, stoi(i));
+    }
+    cout << maxans;
 }

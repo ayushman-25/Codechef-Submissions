@@ -1,7 +1,8 @@
 from random import *
 print(15)
 for _ in range(15):
-    a = randint(1, 1000)
-    b = randint(a, 1000)
-    k = randint(1, 5)
-    print(a, b, k)
+    choosee = ['?', 'C', 'H', 'E', 'F']
+    ans = ''
+    for i in range(10):
+        ans += choice(choosee)
+    print(ans)

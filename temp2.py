@@ -1,14 +1,8 @@
-n = int(input())
-arr = sorted([list(map(int, input().split())) for _ in range(n)])
-start = int(input())
-for i in range(n):
-    if(arr[i][0] == start):
-        last, size = arr[i], 1
-        for j in range(i + 1, n):
-            if(arr[j][0] == last[1] and arr[j][1] == start):
-                print(size + 1)
-                exit(0)
-            if(arr[j][0] == last[1]):
-                last = arr[j]
-                size += 1
-print(0)
+from collections import defaultdict
+txnmy = defaultdict(list)
+for _ in range(int(input())):
+    strr = input()
+    lvl1 = list(map(str, input().split()))
+    txnmy[strr] = [[lvl1[i], list(map(str, input().split()))] for i in range(len(lvl1))]
+p, l1, l2 = input(), input(), input()
+print("Taxonomy present" if(txnmy[p] and txnmy[p][0][0] == l1 and l2 in txnmy[p][0][1: ][0]) else "Taxonomy not present")
