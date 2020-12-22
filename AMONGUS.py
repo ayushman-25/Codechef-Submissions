@@ -75,24 +75,18 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 def solve():
     n = readint()
-    arr = [readint() for _ in range(n)]
-    assert(len(arr) == n)
-    for i in arr:
-        cnt1 = 0
-        for j in str(i):
-            if(int(j) & 1):
-                cnt1 += int(j)
-        if(cnt1 % 3 == 0):
-            print("Yes")
-        else:
-            cnt1 = 0
-            for j in str(i):
-                if(not(int(j) & 1)):
-                    cnt1 += int(j)
-            if(cnt1 % 4 == 0):
-                print("Yes")
-            else:
-                print("No")
+    arr1 = readarri()
+    arr2 = readarri()
+    arr1.sort()
+    arr2.sort()
+    for i in range(n):
+        if(arr1[i] != arr2[i]):
+            print(arr2[i])
+            break
+        if(i == n - 1):
+            if(arr1[i] == arr2[i]):
+                print(arr2[-1])
+                break
 
 def main():
     t = 1
@@ -103,4 +97,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

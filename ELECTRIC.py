@@ -10,7 +10,7 @@ import os
 import sys
 # from collections import *
 # from itertools import *
-# from math import *
+from math import gcd, ceil
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -75,32 +75,19 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 def solve():
     n = readint()
-    arr = [readint() for _ in range(n)]
-    assert(len(arr) == n)
-    for i in arr:
-        cnt1 = 0
-        for j in str(i):
-            if(int(j) & 1):
-                cnt1 += int(j)
-        if(cnt1 % 3 == 0):
-            print("Yes")
-        else:
-            cnt1 = 0
-            for j in str(i):
-                if(not(int(j) & 1)):
-                    cnt1 += int(j)
-            if(cnt1 % 4 == 0):
-                print("Yes")
-            else:
-                print("No")
+    arr = readarri()
+    gcdd = arr[0]
+    for i in range(1, n):
+        gcdd = gcd(arr[i], gcdd)
+    print(gcdd, int(ceil(sum(arr) / gcdd)))
+
 
 def main():
     t = 1
-    # t = readint()
+    t = readint()
     for _ in range(t):
         solve()
 
 
 if __name__ == "__main__":
     main()
-
