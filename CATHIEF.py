@@ -10,7 +10,7 @@ import os
 import sys
 # from collections import *
 # from itertools import *
-from math import log2
+# from math import *
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -74,10 +74,9 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    n = int(input())
-    t1 = 2 ** (int(log2(n)))
-    t2 = 2 ** (int(log2(n)) + 1)
-    print(min(abs(t1 - n), abs(t2 - n)))
+    x, y, k, n = readints()
+    if(not(abs(x - y) % k)): print("Yes" if not((abs(x - y) // k) & 1) else "No")
+    else: print("No")
 
 
 def main():

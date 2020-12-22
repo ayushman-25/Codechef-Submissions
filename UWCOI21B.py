@@ -10,10 +10,10 @@ import os
 import sys
 # from collections import *
 # from itertools import *
-from math import log2
+# from math import *
 # from queue import *
 # from heapq import *
-# from bisect import *
+from bisect import bisect_left
 from io import BytesIO, IOBase
 
 BUFSIZE = 8192
@@ -74,15 +74,18 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    n = int(input())
-    t1 = 2 ** (int(log2(n)))
-    t2 = 2 ** (int(log2(n)) + 1)
-    print(min(abs(t1 - n), abs(t2 - n)))
+    n, m = readints()
+    a, b = readarri(), readarri()
+    minA = min(a)
+    ans = 0
+    for i in b:
+        if(i < minA): ans += n
+    print(ans)
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         solve()
 

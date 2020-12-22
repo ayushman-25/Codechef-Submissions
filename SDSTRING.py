@@ -10,7 +10,7 @@ import os
 import sys
 # from collections import *
 # from itertools import *
-from math import log2
+# from math import *
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -74,10 +74,11 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    n = int(input())
-    t1 = 2 ** (int(log2(n)))
-    t2 = 2 ** (int(log2(n)) + 1)
-    print(min(abs(t1 - n), abs(t2 - n)))
+    s = readstr()
+    if((len(s) & 1) or (len(set(s)) == 1)):
+        print(-1)
+        return
+    print(abs(s.count('1') - s.count('0')) // 2)
 
 
 def main():
