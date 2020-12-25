@@ -74,8 +74,21 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    s = sorted(readstr(), reverse=True)
-    print("".join(s))
+    n = readint()
+    if(n == 1):
+        print("No")
+        return
+    prime = True
+    for i in range(2, int(n ** (1 / 2)) + 1):
+        if n % i == 0:
+            prime = False
+            break
+    if(prime and (str(n) == str(n)[::-1])):
+        print("Yes")
+    else:
+        print("No")
+
+
 
 
 def main():

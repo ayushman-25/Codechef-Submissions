@@ -74,8 +74,11 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    s = sorted(readstr(), reverse=True)
-    print("".join(s))
+    k, n = readints()
+    arr = readarri()
+    l = [i + 1 for i in range(n) if arr[i] == k]
+    if(len(l) <= 1): print(0)
+    else: print(l[-1] - l[0])
 
 
 def main():

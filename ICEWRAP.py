@@ -74,13 +74,22 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    s = sorted(readstr(), reverse=True)
-    print("".join(s))
+    n = readint()
+    siz = n * 2 - 1
+    result = [[0 for _ in range(siz)] for _ in range(siz)]
+    for i in range(siz):
+        for j in range(siz):
+            if (abs(i - (siz // 2)) > abs(j - (siz // 2))): result[i][j] = abs(i - (siz // 2)) + 1
+            else: result[i][j] = abs(j - (siz // 2)) + 1
+    for i in range(siz):
+        for j in range(siz):
+            print(result[i][j], end=' ')
+        print()
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         solve()
 

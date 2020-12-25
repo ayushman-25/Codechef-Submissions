@@ -158,14 +158,9 @@ int main()
     int t;
     cin >> t;
     while(t--) {
-        lli n;
-        cin >> n;
-        lli ans = 0;
-        while(n > 0) {
-            if(!(n % 2)) ans++;
-            n /= 2;
-        }
-        cout << ans << "\n";
+    	int n;
+    	cin >> n;
+    	cout << (!(n % 3) ? 1 : 0) << "\n";
     }
     return 0;
 }

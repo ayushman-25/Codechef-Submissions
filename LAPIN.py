@@ -1,83 +1,92 @@
-"""
+'''
 
-    Author - AYUSHMAN CHAHAR #
+* Author : Ayushman Chahar #
+* About  : IT Sophomore    #
+* Insti  : VIT, Vellore    #
 
-"""
-from __future__ import division, print_function
-import bisect
-import math
-import heapq
-import itertools
+'''
+
+import os
 import sys
-#import numpy
-from itertools import combinations
-from itertools import permutations
-from collections import deque
-from atexit import register
-from collections import Counter
-from functools import reduce
-sys.setrecursionlimit(10000000)
+# from collections import *
+# from itertools import *
+# from math import *
+# from queue import *
+# from heapq import *
+# from bisect import *
+from io import BytesIO, IOBase
 
-if sys.version_info[0] < 3:
-    from io import BytesIO as stream
-else:
-    from io import StringIO as stream
-  
-if sys.version_info[0] < 3:
-    class dict(dict):
-        """dict() -> new empty dictionary"""
-        def items(self):
-            """D.items() -> a set-like object providing a view on D's items"""
-            return dict.iteritems(self)
- 
-        def keys(self):
-            """D.keys() -> a set-like object providing a view on D's keys"""
-            return dict.iterkeys(self)
- 
-        def values(self):
-            """D.values() -> an object providing a view on D's values"""
-            return dict.itervalues(self)
- 
-    input = raw_input
-    range = xrange
- 
-    filter = itertools.ifilter
-    map = itertools.imap
-    zip = itertools.izip
- 
- 
-def sync_with_stdio(sync=True):
-    """Set whether the standard Python streams are allowed to buffer their I/O.
- 
-    Args:
-        sync (bool, optional): The new synchronization setting.
- 
-    """
-    global input, flush
- 
-    if sync:
-        flush = sys.stdout.flush
+BUFSIZE = 8192
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = "x" in file.mode or "r" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b"\n") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode("ascii"))
+        self.read = lambda: self.buffer.read().decode("ascii")
+        self.readline = lambda: self.buffer.readline().decode("ascii")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip("\r\n")
+readint = lambda: int(sys.stdin.readline().rstrip("\r\n"))
+readints = lambda: map(int, sys.stdin.readline().rstrip("\r\n").split())
+readstr = lambda: sys.stdin.readline().rstrip("\r\n")
+readstrs = lambda: map(str, sys.stdin.readline().rstrip("\r\n").split())
+readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
+readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
+
+
+def solve():
+    s = readstr()
+    if len(s) & 1:
+        print("YES" if sorted(s[: len(s) // 2]) == sorted(s[len(s) // 2 + 1:]) else "NO")
     else:
-        sys.stdin = stream(sys.stdin.read())
-        input = lambda: sys.stdin.readline().rstrip('\r\n')
- 
-        sys.stdout = stream()
-        register(lambda: sys.__stdout__.write(sys.stdout.getvalue()))
- 
+        print("YES" if sorted(s[: len(s) // 2]) == sorted(s[len(s) // 2:]) else "NO")
+
+
 def main():
-    
-	for _ in range(int(input())):
-		s = input()
-		if len(s) & 1:
-			fh = s[: len(s) // 2]
-			sh = s[len(s) // 2 + 1: ]
-			print("YES" if sorted(fh) == sorted(sh) else "NO")
-		else:
-			fh = s[: len(s) // 2]
-			sh = s[len(s) // 2: ]
-			print("YES" if sorted(fh) == sorted(sh) else "NO")     
- 
-if __name__ == '__main__':
-    sync_with_stdio(False)
+    t = 1
+    t = readint()
+    for _ in range(t):
+        solve()
+
+
+if __name__ == "__main__":
     main()
- 

@@ -74,8 +74,22 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    s = sorted(readstr(), reverse=True)
-    print("".join(s))
+    n = readint()
+    lt = [str(_) for _ in range(0, n + 1)][::-1]
+    ans = []
+    spaces = n
+    temps = ''
+    for i in range(n + 1):
+        temps += ' ' * spaces
+        temps += "".join(lt[: n - spaces + 1])
+        ans.append(temps)
+        spaces -= 1
+        temps = ''
+    for i in ans:
+        print(i)
+    for i in ans[::-1][1: ]:
+        print(i)
+
 
 
 def main():

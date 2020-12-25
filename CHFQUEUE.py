@@ -73,14 +73,27 @@ readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
+mod = int(1e9) + 7
+
+
 def solve():
-    s = sorted(readstr(), reverse=True)
-    print("".join(s))
+    n, k = readints()
+    arr = readarri()
+    stack, prod, l = [0], 1, 1
+    for i in range(1, n):
+        if(l):
+            while(arr[stack[-1]] > arr[i]):
+                if(l == 0)
+                prod = (prod % mod * (i - stack.pop() + 1) % mod) % mod
+                l -= 1
+        stack.append(i)
+        l += 1
+    print(prod)
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         solve()
 

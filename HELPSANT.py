@@ -74,13 +74,13 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    s = sorted(readstr(), reverse=True)
-    print("".join(s))
+    n = readint()
+    print(*(sorted(set(readarri()))))
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         solve()
 

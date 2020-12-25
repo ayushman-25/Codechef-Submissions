@@ -74,13 +74,32 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    s = sorted(readstr(), reverse=True)
-    print("".join(s))
+    n, l = readint(), readarri()
+    depth = 0
+    max_count, count = 0, 0
+    max_depth, depthloc = 0, 0
+    ind, loc = 0, 0
+    for i in range(n):
+        if depth == 0:
+            count = 0
+            ind = i + 1
+        count += 1
+        if l[i] == 1:
+            depth += 1
+        else:
+            depth -= 1
+        if depth > max_depth:
+            max_depth = depth
+            depthloc = i + 1
+        if max_count < count:
+            max_count = count
+            loc = ind
+    print(max_depth, depthloc, max_count, loc)
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         solve()
 
