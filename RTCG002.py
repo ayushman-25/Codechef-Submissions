@@ -8,7 +8,7 @@
 
 import os
 import sys
-from collections import *
+# from collections import *
 # from itertools import *
 # from math import *
 # from queue import *
@@ -74,36 +74,27 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    s = readstr()
-    map = defaultdict(int)
+    s = input()
+    cal = 0
     for i in s:
-        map[i] += 1
-    singles = 0
-    dds = []
-    dds.sort()
-    for i in set(s):
-        if(map[i] == 1): singles += 1
-        else: dds.append(map[i])
-    start = 0
-    ans = 0
-    while(True):
-        if(singles == 0):
-            break
-        dds[start] -= 2
-        singles -= 1
-        ans += 1
-        if(dds[start] == 0):
-            start += 1
-            continue
-        if(dds[start] == 1):
-            singles += 1
-            start += 1
-            continue
+        if(i == 'D'): cal += 238
+        elif(i == 'T'): cal += 244
+        elif(i == 'M'): cal += 138
+        elif(i == 'B'): cal += 279
+        else: cal += 186
+    ans = [0, 0, 0]
+    ans[0] += (cal // 50)
+    if(ans[0] != 0): cal %= 50
+    ans[1] += (cal // 5)
+    if(ans[1] != 0): cal %= 5
+    ans[-1] += int(cal // 0.5)
+    for i in ans: print(i)
+
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         solve()
 
