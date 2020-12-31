@@ -74,15 +74,11 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    n = readint()
-    arr = readarri()
-    for i in range(n):
-        if(arr[i] % 6 == 0):
-            arr[i] = 6
-            continue
-        arr[i] %= 6
-    print(sum(arr))
-
+    n, m = readints()
+    arr1 = readarri()
+    arr2 = readarri()
+    ans = set(arr1) ^ set(arr2)
+    print(*sorted(ans))
 
 
 def main():

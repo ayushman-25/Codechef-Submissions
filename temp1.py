@@ -74,22 +74,11 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    n = readint()
-    s, p = readstr(), readstr()
-    if(s == p): print("Yes"); return
-    s0, s1, p0, p1 = 0, 0, 0, 0
-    for i in range(n):
-        if(s[i] == '1'): s1 += 1
-        if(s[i] == '0'): s0 += 1
-        if(p[i] == '1'): p1 += 1
-        if(p[i] == '0'): p0 += 1
-        if(p1 > s1): print("No"); return
-    print("Yes" if(p1 == s1 and p0 == s0) else "No")
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         solve()
 

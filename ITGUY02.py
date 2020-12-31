@@ -75,13 +75,29 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 def solve():
     n = readint()
-    arr = readarri()
-    for i in range(n):
-        if(arr[i] % 6 == 0):
-            arr[i] = 6
-            continue
-        arr[i] %= 6
-    print(sum(arr))
+    if(n == 1): print("*"); return
+    if(n == 2):
+        print(" * ")
+        print("***")
+        return
+    start = " " * (n - 1)
+    start += "*"
+    start += " " * (n - 1)
+    ans = [start]
+    spaces = n - 2
+    gap = 1
+    for i in range(1, n - 1):
+        stringg = " " * spaces
+        stringg += "*"
+        stringg += " " * gap
+        gap += 2
+        stringg += "*"
+        stringg += " " * spaces
+        spaces -= 1
+        ans.append(stringg)
+    ans.append("*" * ((2 * n) - 1))
+    for i in ans:
+        print(i)
 
 
 

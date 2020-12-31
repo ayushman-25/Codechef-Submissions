@@ -8,7 +8,7 @@
 
 import os
 import sys
-# from collections import *
+from collections import Counter
 # from itertools import *
 # from math import *
 # from queue import *
@@ -74,14 +74,13 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    n = readint()
+    n, k = readints()
     arr = readarri()
-    for i in range(n):
-        if(arr[i] % 6 == 0):
-            arr[i] = 6
-            continue
-        arr[i] %= 6
-    print(sum(arr))
+    cnt = Counter(sorted(arr))
+    for i in sorted(set(arr)):
+        if(cnt[i] > k):
+            print(i, end=' ')
+    print()
 
 
 

@@ -10,7 +10,7 @@ import os
 import sys
 # from collections import *
 # from itertools import *
-# from math import *
+from math import ceil
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -75,14 +75,22 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 def solve():
     n = readint()
-    arr = readarri()
-    for i in range(n):
-        if(arr[i] % 6 == 0):
-            arr[i] = 6
-            continue
-        arr[i] %= 6
-    print(sum(arr))
-
+    if(n == 1):
+        print(0)
+        return
+    ans = [str(i) for i in range(0, n)]
+    temp = [i for i in range(0, n)]
+    print("".join(ans))
+    subtracts = n - 1
+    adds = 1
+    for i in range(n - 1):
+        for j in range(subtracts):
+            temp[n - j - 1] -= 1
+        subtracts -= 1
+        for k in range(adds):
+            temp[k] += 1
+        adds += 1
+        print("".join([str(k) for k in temp]))
 
 
 def main():

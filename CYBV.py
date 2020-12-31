@@ -8,12 +8,12 @@
 
 import os
 import sys
-# from collections import *
-# from itertools import *
-# from math import *
-# from queue import *
-# from heapq import *
-# from bisect import *
+from collections import *
+from itertools import *
+from math import *
+from queue import *
+from heapq import *
+from bisect import *
 from io import BytesIO, IOBase
 
 BUFSIZE = 8192
@@ -74,14 +74,13 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    n = readint()
-    arr = readarri()
-    for i in range(n):
-        if(arr[i] % 6 == 0):
-            arr[i] = 6
-            continue
-        arr[i] %= 6
-    print(sum(arr))
+    n, k = readints()
+    if(k < n):
+        assert(False)
+    if(k == n):
+        print(1)
+    else:
+        print(int(k / n))
 
 
 
