@@ -8,7 +8,6 @@
 
 import os
 import sys
-import random
 # from collections import *
 # from itertools import *
 # from math import *
@@ -74,78 +73,14 @@ readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
-def getSum(BITTree, i):
-    s = 0
-    i = i + 1
-    while(i > 0):
-        s += BITTree[i]
-        i -= i & (-i)
-    return s
-
-
-def update(BITTree, n, i, v):
-    i += 1
-    while(i <= n):
-        BITTree[i] += v
-        i += (i & (-i))
-
-
-def construct(arr, n):
-    BITTree = [0] * (n + 1)
-    for i in range(n):
-        update(BITTree, n, i, arr[i])
-    return BITTree
-
-
-def check(curr, n, k, smallK):
-    dp = [[0 for _ in range(k + 1)] for _ in range(n)]
-    if (n == 1): return 0
-    for i in range(n): dp[i][0] = 1
-    for i in range(1, n):
-        for z in range(1, k + 1):
-            if (z >= curr[i]): dp[i][z] = (dp[i - 1][z] or dp[i - 1][z - curr[i]])
-            else: dp[i][z] = dp[i - 1][z]
-            if (smallK <= z <= k and dp[i][z]): return 1
-    return 0
-
-
 def solve():
-    n, x, y = readints()
-    arr = readarri()
-    if (n == 1):
-        if (x <= arr[0] <= y): print(0)
-        else: print(-1)
-        return
-    startsum = 0
+    n = readint()
+    arr = sorted(readarri())
     for i in range(n):
-        if (x <= startsum <= y):
-            print(0)
+        if(arr[i] == 1):
+            print(i)
             return
-        startsum += arr[i]
-        if (i == n - 1):
-            if (x <= startsum <= y):
-                print(0)
-                return
-    if (not (check(sorted(arr), n, y, x))):
-        print(-1)
-        return
-    BITTree = construct(arr, n)
-    for i in range(n):
-        for j in range(i + 1, n):
-            val1 = arr[i]
-            val2 = arr[j]
-            update(BITTree, n, i, -arr[i] + val2)
-            update(BITTree, n, j, -arr[j] + val1)
-            l, r = 0, n - 1
-            while(l <= r):
-                mid = l + (r - l) // 2
-                tSum = getSum(BITTree, mid)
-                if(x <= tSum <= y): print(1); return
-                elif(tSum < x): l = mid + 1
-                else: r = mid - 1
-            update(BITTree, n, i, -val2 + val1)
-            update(BITTree, n, j, -val1 + val2)
-    print(2)
+
 
 
 def main():

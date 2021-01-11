@@ -228,5 +228,5 @@ int main()  {
     }
     lli ans = (sum1 % p * (pI(power(k, n))) % p) % p;
     cout << (ans ? ans : 1);
-return 0;
+    return 0;
 }

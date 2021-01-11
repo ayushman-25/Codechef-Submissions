@@ -1,13 +1,8 @@
 from random import *
-t = 100
-print(t)
+t = 1
+print(9 * 9)
 for _ in range(t):
-    n = 10
-    s = ''
-    for i in range(10):
-        s += choice(['A', 'O'])
-    cost = 125
-    a = randint(1, n)
-    b = randint(1, n)
-    print(n, a, b, cost)
-    print(s)
+    m = 1
+    for _ in range(1, 10):
+        for j in range(1, 10):
+            print(m, _, j)
