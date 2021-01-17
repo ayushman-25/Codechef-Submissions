@@ -100,6 +100,8 @@ def check(curr, n, k):
     if(sum(sbst) >= k):
         for i in sbst:
             curr.remove(i)
+        # print(*sbst)
+        sbssst = sbst.copy()
         # sys.stdout.write("left1", curr)
         sc = sum(curr)
         if(sc < k):
@@ -138,7 +140,10 @@ def check(curr, n, k):
                 column -= curr[row]
             row -= 1
         # sys.stdout.write("second", sbst)
-        if(sum(sbst) >= k): return last + len(sbst)
+        if(sum(sbst) >= k):
+            print(*sbssst)
+            print(*sbst)
+            return last + len(sbst)
         else: return 0
     else:
         # sys.stdout.write("hereeee")

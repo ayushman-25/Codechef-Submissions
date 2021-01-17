@@ -154,8 +154,25 @@ template <typename T> inline T readInt()
 //Initialize main()
 int main() 
 {
-    //McQueen;
-    
+    McQueen;
+    int t;
+    cin >> t;
+    while(t--) {
+        string s1, s2;
+        cin >> s1 >> s2;
+        string ss1 = s1, ss2 = s2;
+        sort(s1.begin(), s1.end());
+        sort(s2.begin(), s2.end());
+        if(s1 != s2) {
+            cout << "No\n";
+            continue;
+        }
+        int ans = 0;
+        for(int i = 0; i < (int)s1.size(); i++) {
+            if(ss1[i] != ss2[i]) ans++;
+        }
+        cout << "Yes " << ans / 2 << "\n";
+    }    
     return 0;
 }
 
