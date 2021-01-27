@@ -77,7 +77,9 @@ MOD = int(1e9) + 7
 
 
 def solve():
-
+    n = readint()
+    arr = readarri()
+    print(*[i for i in range(1, n + 1)])
 
 
 def main():

@@ -63,7 +63,7 @@ class IOWrapper(IOBase):
         self.readline = lambda: self.buffer.readline().decode("ascii")
 
 
-sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+# sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
 input = lambda: sys.stdin.readline().rstrip("\r\n")
 readint = lambda: int(sys.stdin.readline().rstrip("\r\n"))
 readints = lambda: map(int, sys.stdin.readline().rstrip("\r\n").split())
@@ -74,10 +74,18 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 mod = 998244353
 MOD = int(1e9) + 7
+N = int(1e7) + 1
+
+dp = [0]
+
+for i in range(1, N + 1):
+    dp.append(dp[-1] + str(i).count('7'))
 
 
 def solve():
-
+    a, b = readints()
+    if(not(a)): print(dp[b])
+    else: print(dp[b] - dp[a - 1])
 
 
 def main():

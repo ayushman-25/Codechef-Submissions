@@ -77,8 +77,14 @@ MOD = int(1e9) + 7
 
 
 def solve():
-
-
+    n = readint()
+    arr1 = readarri()
+    arr2 = readarri()
+    mini = int(1e8)
+    for i in range(n):
+        for j in range(n):
+            mini = min(mini, abs(arr1[i] - arr2[j]))
+    print(mini)
 
 def main():
     t = 1

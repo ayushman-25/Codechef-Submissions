@@ -13,7 +13,7 @@ import sys
 # from math import *
 # from queue import *
 # from heapq import *
-# from bisect import *
+from bisect import bisect_left
 from io import BytesIO, IOBase
 
 BUFSIZE = 8192
@@ -75,14 +75,40 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 mod = 998244353
 MOD = int(1e9) + 7
 
+def isPrime(n):
+    if(n <= 1): return 0
+    if(n <= 3): return 1
+    if(n % 2 == 0 or n % 3 == 0): return 0
+    for i in range(5, int(n ** (1 / 2)) + 1, 6):
+        if(n % i == 0 or (n % (i + 2)) == 0):
+            return 0
+    return 1
+
+
+myprimes = []
+
+for i in range(1, 2 * int(1e5)):
+    if(isPrime(i)):
+        myprimes.append(i)
 
 def solve():
-
+    n = readint()
+    arr = readarri()
+    ans = 0
+    for i in arr:
+        if(i == 1):
+            ans += 1
+            continue
+        if(i == 2):
+            continue
+        checkval = bisect_left(myprimes, i)
+        ans += min(i - myprimes[checkval - 1], myprimes[checkval] - i)
+    print(ans)
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

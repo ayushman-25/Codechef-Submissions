@@ -10,7 +10,7 @@ import os
 import sys
 # from collections import *
 # from itertools import *
-# from math import *
+from math import ceil
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -77,6 +77,20 @@ MOD = int(1e9) + 7
 
 
 def solve():
+    x, y, z = readints()
+    check = [[x // z + y // z, 0]]
+    first_give = x % z
+    second_req = ceil(y / z) * z - y
+    if(second_req <= first_give):
+        check.append([(x - second_req) // z + (y + second_req) // z, second_req])
+    second_give = y % z
+    first_req = ceil(x / z) * z - x
+    if(first_req <= second_give):
+        check.append([(x + first_req) // z + (y - first_req) // z, first_req])
+    maxi = 0
+    for i in check:
+        if(i[0] > maxi): maxi = i[0]
+    print(maxi, min([i[1] for i in check if(i[0] == maxi)]))
 
 
 

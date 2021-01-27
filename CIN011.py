@@ -77,7 +77,16 @@ MOD = int(1e9) + 7
 
 
 def solve():
-
+    n = readint()
+    arr = readarri()
+    max1, max2 = 0, 0
+    for i in range(n):
+        max2 += arr[i]
+        if(max2 < 0):
+            max2 = 0
+        elif(max1 < max2):
+            max1 = max2
+    print(max1)
 
 
 def main():

@@ -76,13 +76,52 @@ mod = 998244353
 MOD = int(1e9) + 7
 
 
-def solve():
+class Graph:
+    def __init__(self, V):
+        self.V = V
+        self.adj = [[] for _ in range(V + 1)]
+    def DFSUtil(self, temp, v, visited):
+        visited[v] = True
+        temp.append(v)
+        for i in self.adj[v]:
+            if visited[i] == False:
+                # Update the list
+                temp = self.DFSUtil(temp, i, visited)
+        return temp
+    def addEdge(self, v, w):
+        self.adj[v].append(w)
+        self.adj[w].append(v)
+    def connectedComponents(self):
+        visited = [0] * (self.V + 1)
+        cc = []
+        # for i in range(1, self.V):
+        #     visited.append(False)
+        for v in range(1, self.V):
+            if visited[v] == False:
+                temp = []
+                cc.append(self.DFSUtil(temp, v, visited))
+        return cc
 
+
+def solve():
+    n, m = readints()
+    A, B = readints()
+    g = Graph(n)
+    for _ in range(m):
+        x, y = readints()
+        g.addEdge(x, y)
+    check = g.connectedComponents()
+    if(len(check) == 1):
+        print(A)
+    else:
+        tbc1 = (len(check) - 1) * B + A
+        tbc2 = A * len(check)
+        print(min(tbc1, tbc2))
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

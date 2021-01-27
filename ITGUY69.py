@@ -77,6 +77,20 @@ MOD = int(1e9) + 7
 
 
 def solve():
+    n = readint()
+    gaps = n // 2 - 1
+    multi = n // 2 - 1
+    check = 0
+    for i in range(1, n + 1):
+        ss = ' ' * gaps
+        ss += str(i) * multi
+        if(check == 0):
+            gaps -= 1
+        if(gaps == -1):
+            check = 1
+        if(check == 1):
+            gaps += 1
+        print(ss)
 
 
 

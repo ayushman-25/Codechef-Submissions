@@ -75,9 +75,15 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 mod = 998244353
 MOD = int(1e9) + 7
 
+N = int(1e6) + 69
+a = [0]
+for i in range(1, N + 1):
+    a.append(a[-1] + 2 * i)
+
 
 def solve():
-
+    n = readint()
+    print(a[n])
 
 
 def main():

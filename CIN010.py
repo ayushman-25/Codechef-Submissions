@@ -10,7 +10,7 @@ import os
 import sys
 # from collections import *
 # from itertools import *
-# from math import *
+from math import sqrt, floor
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -75,10 +75,37 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 mod = 998244353
 MOD = int(1e9) + 7
 
+def sie(lim, primes):
+    mark = [0] * (lim + 1)
+    for i in range(2, lim + 1):
+        if(not mark[i]):
+            primes.append(i)
+            for j in range(i, lim + 1, i):
+                mark[j] = True
+
+
+def rangee(l, r):
+    lim = floor(sqrt(r)) + 1
+    primes = []
+    sie(lim, primes)
+    n = r - l + 1
+    mark = [0] * (n + 1)
+    for i in range(len(primes)):
+        loLim = floor(l / primes[i]) * primes[i]
+        if loLim < l: loLim += primes[i]
+        if loLim == primes[i]: loLim += primes[i]
+        for j in range(loLim, r + 1, primes[i]):
+            if j != primes[i]: mark[j - l] = True
+    L = []
+    for i in range(l, r + 1):
+        if(not mark[i - l] and i != 1):
+            L.append(i)
+    return L
+
 
 def solve():
-
-
+    l, r = readints()
+    print(*rangee(l, r))
 
 def main():
     t = 1

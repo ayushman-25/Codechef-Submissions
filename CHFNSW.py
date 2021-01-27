@@ -77,7 +77,8 @@ MOD = int(1e9) + 7
 
 
 def solve():
-
+    n, m = readints()
+    print(n * m // 2)
 
 
 def main():

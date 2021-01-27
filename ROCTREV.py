@@ -77,7 +77,14 @@ MOD = int(1e9) + 7
 
 
 def solve():
-
+    n = readint()
+    arr = readarri()
+    s, d = readints()
+    if(s == d): print(0); return
+    prod = 1
+    for i in arr[s: d]:
+        prod = (prod % MOD * i % MOD) % MOD
+    print(prod)
 
 
 def main():

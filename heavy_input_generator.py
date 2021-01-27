@@ -1,10 +1,8 @@
 from random import *
-t = 1
-print(1)
+t = randint(7, 9)
+print(t)
 for _ in range(t):
-    n, k = 20, 100
-    arr = []
-    for _ in range(n):
-        arr.append(randint(1, 30))
-    print(n, k)
+    n = randint(10, 15)
+    print(n)
+    arr = [randint(1, 21) for _ in range(n)]
     print(*arr)

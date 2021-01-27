@@ -77,7 +77,17 @@ MOD = int(1e9) + 7
 
 
 def solve():
-
+    n = readint()
+    s = readstr()
+    ans = ''
+    vowels = 'aeiou'
+    vow = []
+    for i in s:
+        if(i in vowels):
+            vow.append(i)
+        else:
+            ans += i
+    print(("".join(sorted(vow))) + ans)
 
 
 def main():

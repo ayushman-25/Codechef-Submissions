@@ -77,7 +77,23 @@ MOD = int(1e9) + 7
 
 
 def solve():
+    n = readint()
+    s = readstr()
+    arr = []
+    for i in s:
+        if(i == '+'): arr.append(1)
+        else: arr.append(-1)
+    if(all(i == -1 for i in arr)):
+        print(0)
+        return
+    max_so_far = arr[0]
+    curr_max = arr[0]
 
+    for i in range(1, n):
+        curr_max = max(arr[i], curr_max + arr[i])
+        max_so_far = max(max_so_far, curr_max)
+
+    print(max_so_far)
 
 
 def main():
