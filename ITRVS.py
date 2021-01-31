@@ -10,7 +10,7 @@ import os
 import sys
 # from collections import *
 # from itertools import *
-# from math import *
+from math import ceil
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -77,14 +77,20 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = readint()
-    endterm = int((2 * n) ** (1 / 2) + (1 / 2))
-    ans = 0
-    terms = 0
-    for i in range(1, endterm):
-        ans += (i * i)
-        terms += i
-    print(ans + (n - terms) * endterm)
+    n, k = readints()
+    arr = readarri()
+    cnt_1 = arr.count(-1)
+    if((n - cnt_1) < ceil(n / 2)):
+        print("Rejected")
+        return
+    for i in arr:
+        if(i > k):
+            print("Too Slow")
+            return
+    if(all(i <= 1 and i != -1 for i in arr)):
+        print("Bot")
+        return
+    print("Accepted")
 
 
 def main():

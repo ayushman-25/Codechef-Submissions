@@ -8,7 +8,7 @@
 
 import os
 import sys
-# from collections import *
+from collections import Counter
 # from itertools import *
 # from math import *
 # from queue import *
@@ -77,19 +77,19 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = readint()
-    endterm = int((2 * n) ** (1 / 2) + (1 / 2))
-    ans = 0
-    terms = 0
-    for i in range(1, endterm):
-        ans += (i * i)
-        terms += i
-    print(ans + (n - terms) * endterm)
+    s = readstr()
+    x, y = 0, 0
+    for i in s:
+        if(i == 'L'): x -= 1
+        if(i == 'R'): x += 1
+        if(i == 'D'): y -= 1
+        if(i == 'U'): y += 1
+    print("true" if(x == y == 0) else "false")
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

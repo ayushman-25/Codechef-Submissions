@@ -77,14 +77,9 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = readint()
-    endterm = int((2 * n) ** (1 / 2) + (1 / 2))
-    ans = 0
-    terms = 0
-    for i in range(1, endterm):
-        ans += (i * i)
-        terms += i
-    print(ans + (n - terms) * endterm)
+    a, b, n = readints()
+    c = a ^ b
+    print([a, b, c][n % 3])
 
 
 def main():

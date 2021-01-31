@@ -76,15 +76,47 @@ mod = 998244353
 MOD = int(1e9) + 7
 
 
+def getSum(BITTree, i):
+    s = 0
+    i = i + 1
+    while(i > 0):
+        s += BITTree[i]
+        i -= i & (-i)
+    return s
+
+
+def update(BITTree, n, i, v):
+    i += 1
+    while(i <= n):
+        BITTree[i] += v
+        i += (i & (-i))
+
+
+def construct(arr, n):
+    BITTree = [0] * (n + 1)
+    for i in range(n):
+        update(BITTree, n, i, arr[i])
+    return BITTree
+
+
 def solve():
     n = readint()
-    endterm = int((2 * n) ** (1 / 2) + (1 / 2))
-    ans = 0
-    terms = 0
-    for i in range(1, endterm):
-        ans += (i * i)
-        terms += i
-    print(ans + (n - terms) * endterm)
+    my = []
+    for i in range(1, n + 1):
+        val = i
+        ub = 0
+        while(val):
+            if(not(val & 1)):
+                ub += 1
+            val >>= 1
+        my.append(1 << ub)
+    BITTree = construct(my, n)
+    for _ in range(readint()):
+        l, r = readints()
+        if(l == 1):
+            print(getSum(BITTree, r - 1))
+        else:
+            print(getSum(BITTree, r - 1) - getSum(BITTree, l - 2))
 
 
 def main():

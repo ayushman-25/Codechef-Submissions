@@ -78,14 +78,9 @@ MOD = int(1e9) + 7
 
 def solve():
     n = readint()
-    endterm = int((2 * n) ** (1 / 2) + (1 / 2))
-    ans = 0
-    terms = 0
-    for i in range(1, endterm):
-        ans += (i * i)
-        terms += i
-    print(ans + (n - terms) * endterm)
-
+    for i in range(int('1' * n), int('9' * n) + 1):
+        if('0' not in str(i)):
+            print(i)
 
 def main():
     t = 1

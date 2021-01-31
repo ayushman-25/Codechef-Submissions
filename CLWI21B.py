@@ -10,10 +10,9 @@ import os
 import sys
 # from collections import *
 # from itertools import *
-# from math import *
+from math import ceil
 # from queue import *
-# from heapq import *
-# from bisect import *
+from heapq import heapify, nlargest, heappop, heappush
 from io import BytesIO, IOBase
 
 BUFSIZE = 8192
@@ -77,14 +76,28 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = readint()
-    endterm = int((2 * n) ** (1 / 2) + (1 / 2))
+    n, k, b = readints()
+    arr = readarri()
+    tl = [[-arr[i], i + 1, b] for i in range(n)]
+    heapify(tl)
+    myans = []
     ans = 0
-    terms = 0
-    for i in range(1, endterm):
-        ans += (i * i)
-        terms += i
-    print(ans + (n - terms) * endterm)
+    iter = 0
+    while(1):
+        if(not(tl)): break
+        if(iter == k): break
+        val = heappop(tl)
+        if(val[0] == 0): break
+        if(val[2] == 0):
+            continue
+        myans.append(val[1])
+        ans += (ceil(-val[0] / 3))
+        val[0] = - (-val[0] - ceil(-val[0] / 3))
+        val[2] -= 1
+        heappush(tl, val)
+        iter += 1
+    print(ans, len(myans))
+    print(*myans)
 
 
 def main():

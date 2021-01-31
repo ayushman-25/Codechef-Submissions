@@ -78,13 +78,15 @@ MOD = int(1e9) + 7
 
 def solve():
     n = readint()
-    endterm = int((2 * n) ** (1 / 2) + (1 / 2))
-    ans = 0
-    terms = 0
-    for i in range(1, endterm):
-        ans += (i * i)
-        terms += i
-    print(ans + (n - terms) * endterm)
+    a, b = readarri(), readarri()
+    for i in range(n):
+        if(i == n - 1):
+            a[i] -= b[i]
+            a[0] -= b[i]
+            continue
+        a[i] -= b[i]
+        a[i + 1] -= b[i]
+    print("YES" if all (i <= 0 for i in a) else "NO")
 
 
 def main():
