@@ -90,7 +90,7 @@ void solve() {
     int n;
     cin >> n;
     vector<vector<int>> adj;
-    // adj.resize(n);
+    adj.resize(n);
     for(int i = 1; i < n; i++) {
         int l, r;
         cin >> l >> r;

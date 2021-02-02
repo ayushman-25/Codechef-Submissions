@@ -8,9 +8,9 @@
 
 import os
 import sys
-from collections import defaultdict
+# from collections import *
 # from itertools import *
-# from math import *
+from math import log2
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -75,32 +75,54 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 mod = 998244353
 MOD = int(1e9) + 7
 
+sys.setrecursionlimit(int(1e6))
+
+
+def dfsUtil(node, count):
+    global visited, x, maxCount, adj
+    visited[node] = 1
+    count += 1
+    for i in adj[node]:
+        if (visited[i] == 0):
+            if (count >= maxCount):
+                maxCount = count
+                x = i
+            dfsUtil(i, count)
+
+
+def dfs(node, n):
+    count = 0
+    for i in range(n + 1):
+        visited[i] = 0
+    dfsUtil(node, count + 1)
+
+
+def diameter(n):
+    global adj, maxCount
+    dfs(1, n)
+    dfs(x, n)
+    return maxCount
+
 
 def solve():
-    n = readint()
-    last_row = []
-    for i in range(2 * n - 1):
-        if(not(i & 1)): last_row.append('*')
-        else: last_row.append('A')
-    ans = [last_row]
-    start = 0
-    end = 2 * n - 2
-    for i in range(n):
-        tc = ans[-1].copy()
-        tc[start] = ' '
-        tc[end] = ' '
-        ans.append(tc)
-        start += 1
-        end -= 1
-    for i in ans[::-1][1:]:
-        for j in i:
-            print(j, end='')
-        print()
+    global adj, visited, maxCount, x
+    n, k = readints()
+    adj = [[] for _ in range(n + 1)]
+    visited = [0 for _ in range(n + 1)]
+    maxCount = -int(1e18)
+    x = 0
+    for _ in range(n - 1):
+        x, y = readints()
+        adj[x].append(y)
+        adj[y].append(x)
+    check = diameter(n) - 1
+    if(check <= k): print(0)
+    else: print(check - k)
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

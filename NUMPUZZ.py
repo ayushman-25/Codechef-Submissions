@@ -8,7 +8,7 @@
 
 import os
 import sys
-from collections import defaultdict
+# from collections import *
 # from itertools import *
 # from math import *
 # from queue import *
@@ -78,25 +78,18 @@ MOD = int(1e9) + 7
 
 def solve():
     n = readint()
-    last_row = []
-    for i in range(2 * n - 1):
-        if(not(i & 1)): last_row.append('*')
-        else: last_row.append('A')
-    ans = [last_row]
-    start = 0
-    end = 2 * n - 2
-    for i in range(n):
-        tc = ans[-1].copy()
-        tc[start] = ' '
-        tc[end] = ' '
-        ans.append(tc)
-        start += 1
-        end -= 1
-    for i in ans[::-1][1:]:
-        for j in i:
-            print(j, end='')
-        print()
-
+    # totient function
+    result = n
+    i = 2
+    while(i * i <= n):
+        if(n % i == 0):
+            while(n % i == 0):
+                n //= i
+            result -= result // i
+        i += 1
+    if(n > 1):
+        result -= result // n
+    print(result)
 
 def main():
     t = 1

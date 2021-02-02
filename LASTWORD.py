@@ -8,9 +8,9 @@
 
 import os
 import sys
-from collections import defaultdict
+# from collections import *
 # from itertools import *
-# from math import *
+from math import log2
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -77,30 +77,12 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = readint()
-    last_row = []
-    for i in range(2 * n - 1):
-        if(not(i & 1)): last_row.append('*')
-        else: last_row.append('A')
-    ans = [last_row]
-    start = 0
-    end = 2 * n - 2
-    for i in range(n):
-        tc = ans[-1].copy()
-        tc[start] = ' '
-        tc[end] = ' '
-        ans.append(tc)
-        start += 1
-        end -= 1
-    for i in ans[::-1][1:]:
-        for j in i:
-            print(j, end='')
-        print()
-
+    s = readarrs()
+    print(len(s[-1]))
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

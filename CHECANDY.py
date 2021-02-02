@@ -8,7 +8,7 @@
 
 import os
 import sys
-from collections import defaultdict
+# from collections import *
 # from itertools import *
 # from math import *
 # from queue import *
@@ -76,26 +76,27 @@ mod = 998244353
 MOD = int(1e9) + 7
 
 
+def findPartiion(arr, n):
+    Sum = 0
+    for i in range(n):
+        Sum += arr[i]
+    if (Sum % 2 != 0):
+        return 0
+    part = [0] * ((Sum // 2) + 1)
+    for i in range((Sum // 2) + 1):
+        part[i] = 0
+    for i in range(n):
+        for j in range(Sum // 2, arr[i] - 1, -1):
+            if (part[j - arr[i]] == 1 or j == arr[i]):
+                part[j] = 1
+
+    return part[Sum // 2]
+
+
 def solve():
     n = readint()
-    last_row = []
-    for i in range(2 * n - 1):
-        if(not(i & 1)): last_row.append('*')
-        else: last_row.append('A')
-    ans = [last_row]
-    start = 0
-    end = 2 * n - 2
-    for i in range(n):
-        tc = ans[-1].copy()
-        tc[start] = ' '
-        tc[end] = ' '
-        ans.append(tc)
-        start += 1
-        end -= 1
-    for i in ans[::-1][1:]:
-        for j in i:
-            print(j, end='')
-        print()
+    arr = readarri()
+    print("Impressed" if findPartiion(arr, n) else "Not Impressed")
 
 
 def main():

@@ -8,7 +8,7 @@
 
 import os
 import sys
-from collections import defaultdict
+# from collections import *
 # from itertools import *
 # from math import *
 # from queue import *
@@ -75,32 +75,89 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 mod = 998244353
 MOD = int(1e9) + 7
 
+sys.setrecursionlimit(int(1e5) + 69)
+height, euler, first, segtree, visited = [], [], [], [], []
+n = None
+
+
+def dfs(adj, node, h=0):
+    global visited, height, euler
+    visited[node] = 1
+    height[node] = h
+    first[node] = len(euler)
+    euler.append(node)
+    for i in adj[node]:
+        if(not (visited[i])):
+            dfs(adj, i, h + 1)
+            euler.append(node)
+
+
+def build(node, b, e):
+    global segtree, euler, height
+    if (b == e): segtree[node] = euler[b]
+    else:
+        mid = (b + e) >> 1
+        build(node << 1, b, mid)
+        build(node << 1 | 1, mid + 1, e)
+        l = segtree[node << 1]
+        r = segtree[node << 1 | 1]
+        segtree[node] = l if (height[l] < height[r]) else r
+
+
+def query(node, b, e, L, R):
+    global segtree, height
+    if (b > R or e < L): return -1
+    if (b >= L and e <= R): return segtree[node]
+    mid = (b + e) >> 1
+    left = query(node << 1, b, mid, L, R)
+    right = query(node << 1 | 1, mid + 1, e, L, R)
+    if (left == -1): return right
+    if (right == -1): return left
+    return left if (height[left] < height[right]) else right
+
+
+def preC(adj, root=0):
+    global height, euler, first, segtree, visited, n
+    n = len(adj)
+    height = [0 for _ in range(n)]
+    first = [0 for _ in range(n)]
+    visited = [0 for _ in range(n)]
+    dfs(adj, root)
+    m = len(euler)
+    segtree = [0 for _ in range(m * 4)]
+    build(1, 0, m - 1)
+
+
+def lca(u, v):
+    global first, euler
+    left, right = first[u], first[v]
+    right = first[v]
+    if (left > right): left, right = right, left
+    return query(1, 0, len(euler) - 1, left, right)
+
 
 def solve():
     n = readint()
-    last_row = []
-    for i in range(2 * n - 1):
-        if(not(i & 1)): last_row.append('*')
-        else: last_row.append('A')
-    ans = [last_row]
-    start = 0
-    end = 2 * n - 2
-    for i in range(n):
-        tc = ans[-1].copy()
-        tc[start] = ' '
-        tc[end] = ' '
-        ans.append(tc)
-        start += 1
-        end -= 1
-    for i in ans[::-1][1:]:
-        for j in i:
-            print(j, end='')
-        print()
+    adj = [[] for _ in range(n)]
+    for _ in range(n - 1):
+        l, r = readints()
+        l -= 1; r -= 1
+        adj[l].append(r)
+        adj[r].append(l)
+    preC(adj)
+    for _ in range(readint()):
+        root, u, v = readints()
+        root -= 1; u -= 1; v -= 1
+        uv, ur, vr = lca(u, v), lca(u, root), lca(v, root)
+        if (uv == ur): print(vr + 1)
+        elif (ur == vr): print(uv + 1)
+        elif (uv == vr): print(ur + 1)
+        else: assert (False)
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
