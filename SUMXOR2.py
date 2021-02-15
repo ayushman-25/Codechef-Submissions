@@ -8,7 +8,7 @@
 
 import os
 import sys
-from collections import defaultdict
+# from collections import *
 # from itertools import *
 # from math import *
 # from queue import *
@@ -72,50 +72,69 @@ readstrs = lambda: map(str, sys.stdin.readline().rstrip("\r\n").split())
 readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
+
 mod = 998244353
 MOD = int(1e9) + 7
+N = int(2e5) + 2
+fNI, nNI, fact = [0 for _ in range(N + 1)], [0 for _ in range(N + 1)], [0 for _ in range(N + 1)]
+
+
+def add(val1, val2):
+    return (val1 % mod + val2 % mod) % mod
+
+
+def mult(val1, val2):
+    return (val1 % mod * val2 % mod) % mod
+
+
+def IoN():
+    nNI[0] = nNI[1] = 1
+    for i in range(2, N + 1): nNI[i] = (nNI[mod % i] * (mod - mod // i) % mod)
+
+
+def IoF():
+    fNI[0] = fNI[1] = 1
+    for i in range(2, N + 1): fNI[i] = (nNI[i] * fNI[i - 1]) % mod
+
+
+def f():
+    fact[0] = 1
+    for i in range(1, N + 1):
+        fact[i] = (fact[i - 1] * i) % mod
+
+
+def bino(nn, rr):
+    return ((fact[nn] * fNI[rr]) % mod * fNI[nn - rr]) % mod
 
 
 def solve():
     n = readint()
-    summ = n * (n + 1) >> 1
-    if(summ & 1):
-        print("NO")
-        return
-    print("YES")
-    summ >>= 1
-    sbst1, sbst2 = [], []
-    if(not(n & 1)):
-        for i in range(1, n // 2 + 1, 2):
-            sbst1.append(i)
-            sbst1.append(n - i + 1)
-            sbst2.append(i + 1)
-            sbst2.append(n - i)
-        print(len(sbst1))
-        print(*sbst1)
-        print(len(sbst2))
-        print(*sbst2)
-    else:
-        print(summ)
-        mapp = defaultdict(int)
-        for i in range(n, 0, -1):
-            if(i < summ):
-                sbst1.append(i)
-                mapp[i] = 1
-                summ -= i
-            else:
-                sbst1.append(summ)
-                mapp[summ] = 1
-                break
-        print(len(sbst1))
-        print(*sbst1)
-        print(n - len(sbst1))
-        for i in range(1, n + 1):
-            if(not(mapp[i])):
-                print(i, end=' ')
+    arr = readarri()
+    mat = [[0 for _ in range(32)] for _ in range(n)]
+    for i in range(n):
+        start = 31
+        while(arr[i]):
+            mat[i][start] = arr[i] & 1
+            arr[i] >>= 1
+            start -= 1
+    cnt_1 = [sum(mat[j][_] for j in range(n)) for _ in range(32)]
+    pre = [0 for _ in range(n + 1)]
+    for k in range(1, n + 1):
+        ans = 0
+        for i in range(1, k + 1, 2):
+            for j in range(31, -1, -1):
+                if (cnt_1[j] < i or (n - cnt_1[j]) < (k - i)): continue
+                temp = mult(bino((n - cnt_1[j]), (k - i)), bino(cnt_1[j], i))
+                temp = mult(temp, 1 << (31 - j))
+                ans = add(ans, temp)
+        pre[k] = add(pre[k - 1], ans)
+    for _ in range(readint()): print(pre[readint()])
 
 
 def main():
+    IoN()
+    IoF()
+    f()
     t = 1
     # t = readint()
     for _ in range(t):

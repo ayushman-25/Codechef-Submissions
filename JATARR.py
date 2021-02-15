@@ -8,7 +8,7 @@
 
 import os
 import sys
-from collections import defaultdict
+# from collections import *
 # from itertools import *
 # from math import *
 # from queue import *
@@ -78,46 +78,28 @@ MOD = int(1e9) + 7
 
 def solve():
     n = readint()
-    summ = n * (n + 1) >> 1
-    if(summ & 1):
-        print("NO")
-        return
-    print("YES")
-    summ >>= 1
-    sbst1, sbst2 = [], []
-    if(not(n & 1)):
-        for i in range(1, n // 2 + 1, 2):
-            sbst1.append(i)
-            sbst1.append(n - i + 1)
-            sbst2.append(i + 1)
-            sbst2.append(n - i)
-        print(len(sbst1))
-        print(*sbst1)
-        print(len(sbst2))
-        print(*sbst2)
-    else:
-        print(summ)
-        mapp = defaultdict(int)
-        for i in range(n, 0, -1):
-            if(i < summ):
-                sbst1.append(i)
-                mapp[i] = 1
-                summ -= i
-            else:
-                sbst1.append(summ)
-                mapp[summ] = 1
-                break
-        print(len(sbst1))
-        print(*sbst1)
-        print(n - len(sbst1))
-        for i in range(1, n + 1):
-            if(not(mapp[i])):
-                print(i, end=' ')
+    arr = readarri()
+    diff_arr = [0] * (n + 2)
+    diff_arr[0] = arr[0]
+    for i in range(1, n): diff_arr[i] = (arr[i] - arr[i - 1])
+    for _ in range(readint()):
+        tl = readarrs()
+        if(tl[0] == 'U'):
+            for i in range(n):
+                if(i == 0): arr[i] = diff_arr[i]
+                else: arr[i] = diff_arr[i] + arr[i - 1]
+                print(arr[i], end=' ')
+            print()
+        else:
+            l = int(tl[0]); r = int(tl[1])
+            val = int(tl[2])
+            diff_arr[l - 1] += val
+            diff_arr[r] -= val
 
 
 def main():
     t = 1
-    # t = readint()
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

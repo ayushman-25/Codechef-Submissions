@@ -74,50 +74,41 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 mod = 998244353
 MOD = int(1e9) + 7
+alp = 'abcdefghijklmnopqrstuvwxyz'
 
 
 def solve():
     n = readint()
-    summ = n * (n + 1) >> 1
-    if(summ & 1):
-        print("NO")
-        return
-    print("YES")
-    summ >>= 1
-    sbst1, sbst2 = [], []
-    if(not(n & 1)):
-        for i in range(1, n // 2 + 1, 2):
-            sbst1.append(i)
-            sbst1.append(n - i + 1)
-            sbst2.append(i + 1)
-            sbst2.append(n - i)
-        print(len(sbst1))
-        print(*sbst1)
-        print(len(sbst2))
-        print(*sbst2)
+    arr = readarrs()
+    funny, pre_store, ls = defaultdict(str), defaultdict(list), defaultdict(int)
+    for i in arr:
+        pre_store[i[1:]].append(i[0])
+        funny[i] = 1
+    ps, lp = list(pre_store.keys()), len(pre_store)
+    for i in range(lp):
+        for j in range(i + 1, lp):
+            ls[(i, j)] = len(set(pre_store[ps[i]] + pre_store[ps[j]]))
+    ans = 0
+    pre_cut, tc = [i[1:] for i in arr], [[] for _ in range(26)]
+    for _ in range(26):
+        for i in pre_cut:
+            tc[_].append(alp[_] + i)
+    if(n <= 2e3):
+        for i in range(n):
+            for j in range(i + 1, n):
+                if(not(funny[tc[ord(arr[j][0]) - 97][i]]) and not(funny[tc[ord(arr[i][0]) - 97][j]])):
+                    ans += 2
+        print(ans)
     else:
-        print(summ)
-        mapp = defaultdict(int)
-        for i in range(n, 0, -1):
-            if(i < summ):
-                sbst1.append(i)
-                mapp[i] = 1
-                summ -= i
-            else:
-                sbst1.append(summ)
-                mapp[summ] = 1
-                break
-        print(len(sbst1))
-        print(*sbst1)
-        print(n - len(sbst1))
-        for i in range(1, n + 1):
-            if(not(mapp[i])):
-                print(i, end=' ')
+        for i in range(lp):
+            for j in range(i + 1, lp):
+                ans += ((ls[(i, j)] - len(pre_store[ps[i]])) * (ls[(i, j)] - len(pre_store[ps[j]]))) << 1
+        print(ans)
 
 
 def main():
     t = 1
-    # t = readint()
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

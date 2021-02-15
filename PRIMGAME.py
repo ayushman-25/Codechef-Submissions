@@ -8,8 +8,8 @@
 
 import os
 import sys
-from collections import defaultdict
-# from itertools import *
+# from collections import *
+from itertools import accumulate
 # from math import *
 # from queue import *
 # from heapq import *
@@ -75,49 +75,30 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 mod = 998244353
 MOD = int(1e9) + 7
 
+N = int(1e6) + 1
+
+primes = [1 for _ in range(N + 1)]
+primes[0] = primes[1] = 0
+
+p = 2
+while(p * p <= N + 1):
+    if(primes[p]):
+        for i in range(p * p, N + 1, p):
+            primes[i] = 0
+    p += 1
+
+
+dp = list(accumulate(primes))
+
 
 def solve():
-    n = readint()
-    summ = n * (n + 1) >> 1
-    if(summ & 1):
-        print("NO")
-        return
-    print("YES")
-    summ >>= 1
-    sbst1, sbst2 = [], []
-    if(not(n & 1)):
-        for i in range(1, n // 2 + 1, 2):
-            sbst1.append(i)
-            sbst1.append(n - i + 1)
-            sbst2.append(i + 1)
-            sbst2.append(n - i)
-        print(len(sbst1))
-        print(*sbst1)
-        print(len(sbst2))
-        print(*sbst2)
-    else:
-        print(summ)
-        mapp = defaultdict(int)
-        for i in range(n, 0, -1):
-            if(i < summ):
-                sbst1.append(i)
-                mapp[i] = 1
-                summ -= i
-            else:
-                sbst1.append(summ)
-                mapp[summ] = 1
-                break
-        print(len(sbst1))
-        print(*sbst1)
-        print(n - len(sbst1))
-        for i in range(1, n + 1):
-            if(not(mapp[i])):
-                print(i, end=' ')
+    x, y = readints()
+    print("Divyam" if (dp[x] > y) else "Chef")
 
 
 def main():
     t = 1
-    # t = readint()
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

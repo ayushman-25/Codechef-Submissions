@@ -10,10 +10,10 @@ import os
 import sys
 from collections import defaultdict
 # from itertools import *
-# from math import *
+from math import ceil
 # from queue import *
 # from heapq import *
-# from bisect import *
+from bisect import bisect_left
 from io import BytesIO, IOBase
 
 BUFSIZE = 8192
@@ -78,46 +78,25 @@ MOD = int(1e9) + 7
 
 def solve():
     n = readint()
-    summ = n * (n + 1) >> 1
-    if(summ & 1):
-        print("NO")
-        return
-    print("YES")
-    summ >>= 1
-    sbst1, sbst2 = [], []
-    if(not(n & 1)):
-        for i in range(1, n // 2 + 1, 2):
-            sbst1.append(i)
-            sbst1.append(n - i + 1)
-            sbst2.append(i + 1)
-            sbst2.append(n - i)
-        print(len(sbst1))
-        print(*sbst1)
-        print(len(sbst2))
-        print(*sbst2)
+    w, l, ans = readarri(), readarri(), 0
+    if (n == 2):
+        if (w == [1, 2]): ans = 0
+        else: ans = 2 if (l[0] == 1) else 1
     else:
-        print(summ)
-        mapp = defaultdict(int)
-        for i in range(n, 0, -1):
-            if(i < summ):
-                sbst1.append(i)
-                mapp[i] = 1
-                summ -= i
-            else:
-                sbst1.append(summ)
-                mapp[summ] = 1
-                break
-        print(len(sbst1))
-        print(*sbst1)
-        print(n - len(sbst1))
-        for i in range(1, n + 1):
-            if(not(mapp[i])):
-                print(i, end=' ')
+        tl, pl, iter = sorted(w.copy()), [i for i in range(n)], 1
+        while (iter <= n - 1):
+            tC = w.index(tl[iter])
+            while (tC <= pl[w.index(tl[iter - 1])]):
+                pl[w.index(tl[iter])] = l[w.index(tl[iter])] + tC
+                tC += l[w.index(tl[iter])]
+                ans += 1
+            iter += 1
+    print(ans)
 
 
 def main():
     t = 1
-    # t = readint()
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

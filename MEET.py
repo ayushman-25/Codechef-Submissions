@@ -8,7 +8,8 @@
 
 import os
 import sys
-from collections import defaultdict
+from datetime import datetime, time
+# from collections import *
 # from itertools import *
 # from math import *
 # from queue import *
@@ -77,47 +78,33 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = readint()
-    summ = n * (n + 1) >> 1
-    if(summ & 1):
-        print("NO")
-        return
-    print("YES")
-    summ >>= 1
-    sbst1, sbst2 = [], []
-    if(not(n & 1)):
-        for i in range(1, n // 2 + 1, 2):
-            sbst1.append(i)
-            sbst1.append(n - i + 1)
-            sbst2.append(i + 1)
-            sbst2.append(n - i)
-        print(len(sbst1))
-        print(*sbst1)
-        print(len(sbst2))
-        print(*sbst2)
-    else:
-        print(summ)
-        mapp = defaultdict(int)
-        for i in range(n, 0, -1):
-            if(i < summ):
-                sbst1.append(i)
-                mapp[i] = 1
-                summ -= i
-            else:
-                sbst1.append(summ)
-                mapp[summ] = 1
-                break
-        print(len(sbst1))
-        print(*sbst1)
-        print(n - len(sbst1))
-        for i in range(1, n + 1):
-            if(not(mapp[i])):
-                print(i, end=' ')
+    p = readarrs()
+    hrs = int(p[0][:2])
+    mins = int(p[0][3:])
+    if(hrs == 12 and p[-1] == 'AM'): hrs = 0
+    hrs = hrs + 12 if(p[1] == 'PM' and hrs != 12) else hrs
+    check_time = time(hrs, mins)
+    ans = ''
+    for _ in range(readint()):
+        timee = readarrs()
+        hrs_start, mins_start = int(timee[0: 2][0][:2]), int(timee[0: 2][0][3:])
+        if(hrs_start == 12 and timee[1] == 'AM'): hrs_start = 0
+        hrs_start = hrs_start + 12 if(timee[1] == 'PM' and hrs_start != 12) else hrs_start
+        hrs_end, mins_end = int(timee[2:][0][:2]), int(timee[2:][0][3:])
+        if (hrs_end == 12 and timee[3] == 'AM'): hrs_end= 0
+        hrs_end = hrs_end + 12 if (timee[3] == 'PM' and hrs_end != 12) else hrs_end
+        if(time(hrs_start, mins_start) < time(hrs_end, mins_end)):
+            ans += '1' if (check_time >= time(hrs_start, mins_start) and check_time <= time(hrs_end, mins_end)) else '0'
+        elif(time(hrs_start, mins_start) > time(hrs_end, mins_end)):
+            ans += '1' if (check_time >= time(hrs_start, mins_start) or check_time <= time(hrs_end, mins_end)) else '0'
+        else:
+            ans += '1' if(check_time == time(hrs_start, mins_start) == time(hrs_end, mins_end)) else '0'
+    print(ans)
 
 
 def main():
     t = 1
-    # t = readint()
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

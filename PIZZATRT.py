@@ -8,7 +8,7 @@
 
 import os
 import sys
-from collections import defaultdict
+# from collections import *
 # from itertools import *
 # from math import *
 # from queue import *
@@ -77,47 +77,33 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = readint()
-    summ = n * (n + 1) >> 1
-    if(summ & 1):
-        print("NO")
-        return
-    print("YES")
-    summ >>= 1
-    sbst1, sbst2 = [], []
-    if(not(n & 1)):
-        for i in range(1, n // 2 + 1, 2):
-            sbst1.append(i)
-            sbst1.append(n - i + 1)
-            sbst2.append(i + 1)
-            sbst2.append(n - i)
-        print(len(sbst1))
-        print(*sbst1)
-        print(len(sbst2))
-        print(*sbst2)
-    else:
-        print(summ)
-        mapp = defaultdict(int)
-        for i in range(n, 0, -1):
-            if(i < summ):
-                sbst1.append(i)
-                mapp[i] = 1
-                summ -= i
-            else:
-                sbst1.append(summ)
-                mapp[summ] = 1
-                break
-        print(len(sbst1))
-        print(*sbst1)
-        print(n - len(sbst1))
-        for i in range(1, n + 1):
-            if(not(mapp[i])):
-                print(i, end=' ')
+    pizzas, arr = readint(), readarri()
+    cooks = arr[0]
+    arr = arr[1:]
+    stores = arr.copy()
+    minutes, start, p = 0, 0, 0
+    ans = []
+    while(1):
+        if(p >= pizzas): break
+        maxi = 0
+        temp = []
+        for i in range(cooks):
+            if(p >= pizzas): break
+            p += 1
+            maxi = max(maxi, arr[i])
+            temp.append(arr[i])
+            arr[i] += stores[i]
+        ans.append(temp)
+        minutes += maxi
+    for i in range(cooks - len(ans[-1])): ans[-1].append(0)
+    maxi_ans, la = 0, len(ans)
+    for i in range(cooks): maxi_ans = max(maxi_ans, sum(ans[j][i] for j in range(la)))
+    print(maxi_ans)
 
 
 def main():
     t = 1
-    # t = readint()
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

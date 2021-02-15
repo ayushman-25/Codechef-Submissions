@@ -77,47 +77,31 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = readint()
-    summ = n * (n + 1) >> 1
-    if(summ & 1):
-        print("NO")
-        return
-    print("YES")
-    summ >>= 1
-    sbst1, sbst2 = [], []
-    if(not(n & 1)):
-        for i in range(1, n // 2 + 1, 2):
-            sbst1.append(i)
-            sbst1.append(n - i + 1)
-            sbst2.append(i + 1)
-            sbst2.append(n - i)
-        print(len(sbst1))
-        print(*sbst1)
-        print(len(sbst2))
-        print(*sbst2)
-    else:
-        print(summ)
-        mapp = defaultdict(int)
-        for i in range(n, 0, -1):
-            if(i < summ):
-                sbst1.append(i)
-                mapp[i] = 1
-                summ -= i
-            else:
-                sbst1.append(summ)
-                mapp[summ] = 1
-                break
-        print(len(sbst1))
-        print(*sbst1)
-        print(n - len(sbst1))
-        for i in range(1, n + 1):
-            if(not(mapp[i])):
-                print(i, end=' ')
+    arr = readarrs()
+    temp = []
+    for i in arr:
+        dd = defaultdict(list)
+        for j in range(len(i)):
+            dd[i[j]].append(j + 1)
+        temp.append(dd)
+    ans = []
+    for i in arr:
+        tp = list(i).copy()
+        tp.sort()
+        print("".join(tp), end=' ')
+        ans.append(tp)
+    print()
+    for i in range(len(ans)):
+        for j in ans[i]:
+            print(temp[i][j][0], end='')
+            del temp[i][j][0]
+        print(end=' ')
+    print()
 
 
 def main():
     t = 1
-    # t = readint()
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
