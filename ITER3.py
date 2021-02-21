@@ -77,17 +77,13 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n, arr = readint(), readarri()
-    c0, c1, c2 = 0, 0, 0
-    for i in arr:
-        if(i % 3 == 0): c0 += 1
-        elif(i % 3 == 1): c1 += 1
-        elif(i % 3 == 2): c2 += 1
-        else: assert(False)
-    if(c0 == c1 == c2):
-        print(0)
-        return
-    print(max(c1 - c0, c2 - c1, c0 - c2))
+    n, k, m = readints()
+    assistant, chef = readarri(), readarri()
+    cnt = 0
+    for i in range(n):
+        if (abs(chef[i] - assistant[i]) > k): cnt += 1
+    # print(cnt, m)
+    print(1 if (cnt <= m) else 0)
 
 
 def main():

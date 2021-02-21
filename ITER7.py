@@ -75,19 +75,42 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 mod = 998244353
 MOD = int(1e9) + 7
 
+sys.setrecursionlimit(int(1e6))
+
+class Graph:
+
+    def __init__(self, row, col, g):
+        self.ROW = row
+        self.COL = col
+        self.graph = g
+
+    def isSafe(self, i, j, visited):
+        return (i >= 0 and i < self.ROW and j >= 0 and j < self.COL and not visited[i][j] and self.graph[i][j])
+
+    def DFS(self, i, j, visited):
+        rowNbr = [-1, -1, -1, 0, 0, 1, 1, 1]
+        colNbr = [-1, 0, 1, -1, 1, -1, 0, 1]
+        visited[i][j] = True
+        for k in range(8):
+            if self.isSafe(i + rowNbr[k], j + colNbr[k], visited):
+                self.DFS(i + rowNbr[k], j + colNbr[k], visited)
+
+    def countRooms(self):
+        visited = [[False for j in range(self.COL)] for i in range(self.ROW)]
+        count = 0
+        for i in range(self.ROW):
+            for j in range(self.COL):
+                if visited[i][j] == False and self.graph[i][j] == 1:
+                    self.DFS(i, j, visited)
+                    count += 1
+        return count
+
 
 def solve():
-    n, arr = readint(), readarri()
-    c0, c1, c2 = 0, 0, 0
-    for i in arr:
-        if(i % 3 == 0): c0 += 1
-        elif(i % 3 == 1): c1 += 1
-        elif(i % 3 == 2): c2 += 1
-        else: assert(False)
-    if(c0 == c1 == c2):
-        print(0)
-        return
-    print(max(c1 - c0, c2 - c1, c0 - c2))
+    n, m = readints()
+    mat = [readarri() for _ in range(n)]
+    ans = Graph(n, m, mat)
+    print(ans.countRooms())
 
 
 def main():

@@ -8,9 +8,9 @@
 
 import os
 import sys
-# from collections import *
+from collections import defaultdict
 # from itertools import *
-from math import log2
+# from math import *
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -74,58 +74,42 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 mod = 998244353
 MOD = int(1e9) + 7
-cities = [1]
-
-sys.setrecursionlimit(int(1e6))
-
-
-def dfsUtil(node, count):
-    global visited, x, maxCount, adj
-    visited[node] = 1
-
-    count += 1
-    for i in adj[node]:
-        if (visited[i] == 0):
-            if (count >= maxCount):
-                cities.append(i)
-                maxCount = count
-                x = i
-            dfsUtil(i, count)
-
-
-def dfs(node, n):
-    count = 0
-    for i in range(n + 1):
-        visited[i] = 0
-    dfsUtil(node, count + 1)
-
-
-def diameter(n):
-    global adj, maxCount
-    dfs(1, n)
-    dfs(x, n)
-    return maxCount
 
 
 def solve():
-    global adj, visited, maxCount, x
-    maxCount = -int(1e9) + 69
-    n, k = readints()
-    adj = [[] for _ in range(n + 1)]
-    visited = [0 for _ in range(n + 1)]
-    x = 0
-    for _ in range(k):
-        x, y = readints()
-        adj[x].append(y)
-        adj[y].append(x)
-    check = diameter(n) - 1
-    print(check)
-    print(cities)
+    n = readint()
+    arr = readarri()
+    visited = [0] * n
+    ans = [-1] * n
+    curr_depth = 1
+    maxx = max(arr)
+    maxi = arr.index(maxx)
+    visited[maxx] = 1
+    ans[maxi] = curr_depth - 1
+    idxx = defaultdict(int)
+    for i in range(n): idxx[arr[i]] = i
+    while(1):
+        if(all(i == 1 for i in visited)):
+            break
+        left = arr[0: maxi]
+        right = arr[1: maxi]
+        for k in sorted(left)[::-1]:
+            if(not(visited[k])):
+                visited[k] = 1
+                ans[idxx[k]] = curr_depth
+                break
+        for k in sorted(right)[::-1]:
+            if(not(visited[k])):
+                visited[k] = 1
+                ans[idxx[k]] = curr_depth
+                break
+        curr_depth += 1
+
 
 
 def main():
     t = 1
-    # t = readint()
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

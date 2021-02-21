@@ -77,17 +77,11 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n, arr = readint(), readarri()
-    c0, c1, c2 = 0, 0, 0
-    for i in arr:
-        if(i % 3 == 0): c0 += 1
-        elif(i % 3 == 1): c1 += 1
-        elif(i % 3 == 2): c2 += 1
-        else: assert(False)
-    if(c0 == c1 == c2):
-        print(0)
-        return
-    print(max(c1 - c0, c2 - c1, c0 - c2))
+    n, k = readints()
+    ans = 0
+    for i in range(1, k + 1):
+        ans = max(ans, n % i)
+    print(ans)
 
 
 def main():

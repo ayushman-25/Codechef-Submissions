@@ -8,7 +8,7 @@
 
 import os
 import sys
-# from collections import *
+from collections import Counter
 # from itertools import *
 # from math import *
 # from queue import *
@@ -77,17 +77,16 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n, arr = readint(), readarri()
-    c0, c1, c2 = 0, 0, 0
-    for i in arr:
-        if(i % 3 == 0): c0 += 1
-        elif(i % 3 == 1): c1 += 1
-        elif(i % 3 == 2): c2 += 1
-        else: assert(False)
-    if(c0 == c1 == c2):
-        print(0)
-        return
-    print(max(c1 - c0, c2 - c1, c0 - c2))
+    s1, s2 = readstr(), readstr()
+    map1, map2 = Counter(), Counter()
+    for i in s1: map1[i] = 1
+    for i in s2: map2[i] = 1
+    cnt = 0
+    for i in set(s1):
+        if(not(map2[i])): cnt += 1
+    for i in set(s2):
+        if(not(map1[i])): cnt += 1
+    print(cnt)
 
 
 def main():

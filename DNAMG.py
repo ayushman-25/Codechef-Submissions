@@ -77,22 +77,52 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n, arr = readint(), readarri()
-    c0, c1, c2 = 0, 0, 0
-    for i in arr:
-        if(i % 3 == 0): c0 += 1
-        elif(i % 3 == 1): c1 += 1
-        elif(i % 3 == 2): c2 += 1
+    s = readstr()
+    a, c, g, t = list(), list(), list(), list()
+    for i in range(len(s)):
+        if(s[i] == 'A'): a.append(i)
+        elif(s[i] == 'C'): c.append(i)
+        elif(s[i] == 'G'): g.append(i)
+        elif(s[i] == 'T'): t.append(i)
         else: assert(False)
-    if(c0 == c1 == c2):
-        print(0)
-        return
-    print(max(c1 - c0, c2 - c1, c0 - c2))
+    maxi = []
+    maxAns = []
+    for _ in range(readint()):
+        p = readstr()
+        lp = len(p)
+        if (p[0] == 'A'):
+            cnt = 0
+            for i in a:
+                if(s[i: i + lp] == p): cnt += 1
+            maxi.append(cnt)
+            maxAns.append(p)
+        elif (p[0] == 'C'):
+            cnt = 0
+            for i in c:
+                if (s[i: i + lp] == p): cnt += 1
+            maxi.append(cnt)
+            maxAns.append(p)
+        elif (p[0] == 'G'):
+            cnt = 0
+            for i in g:
+                if (s[i: i + lp] == p): cnt += 1
+            maxi.append(cnt)
+            maxAns.append(p)
+        elif (p[0] == 'T'):
+            cnt = 0
+            for i in t:
+                if (s[i: i + lp] == p): cnt += 1
+            maxi.append(cnt)
+            maxAns.append(p)
+        else:
+            assert(False)
+    maxc = max(maxi)
+    print(min(sorted([maxAns[i] for i in range(len(maxAns)) if (maxi[i] == maxc)])))
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

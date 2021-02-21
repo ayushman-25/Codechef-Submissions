@@ -23,6 +23,7 @@ template<typename T, typename U> inline void amin(T &x, U y) {if(y < x) x = y;}
 template<typename T, typename U> inline void amax(T &x, U y) {if(x < y) x = y;}
 
 void solve() {
+    
 
 }
 
@@ -30,7 +31,7 @@ int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr); cout.tie(nullptr);
     int t = 1, casee = 1;
-    // cin >> t;
+    cin >> t;
     while(t--) {
         // cout << "Case #" << casee++ << ": ";
         solve();

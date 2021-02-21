@@ -8,7 +8,7 @@
 
 import os
 import sys
-# from collections import *
+from collections import Counter
 # from itertools import *
 # from math import *
 # from queue import *
@@ -77,22 +77,34 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n, arr = readint(), readarri()
-    c0, c1, c2 = 0, 0, 0
-    for i in arr:
-        if(i % 3 == 0): c0 += 1
-        elif(i % 3 == 1): c1 += 1
-        elif(i % 3 == 2): c2 += 1
-        else: assert(False)
-    if(c0 == c1 == c2):
-        print(0)
+    s = readstr()
+    if not all(i.isalpha() for i in s):
+        print("The string is invalid")
         return
-    print(max(c1 - c0, c2 - c1, c0 - c2))
+    cnt = Counter(s)
+    if all(cnt[s[0]] == cnt[i] for i in cnt.keys()):
+        print("".join(sorted(s)))
+        return
+    for i in range(len(cnt.keys())):
+        cnt_copy = cnt.copy()
+        cntr = 0
+        for j in cnt_copy.keys():
+            if(i == cntr):
+                cnt_copy[j] -= 1
+                ans = ""
+                for k in cnt_copy.keys():
+                    ans += (k * cnt_copy[k])
+                temp = Counter(ans)
+                if all(temp[ans[0]] == temp[k] for k in temp.keys()):
+                    print("".join(sorted(ans)))
+                    return
+            cntr += 1
+    print("The string is invalid")
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

@@ -77,17 +77,18 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n, arr = readint(), readarri()
-    c0, c1, c2 = 0, 0, 0
-    for i in arr:
-        if(i % 3 == 0): c0 += 1
-        elif(i % 3 == 1): c1 += 1
-        elif(i % 3 == 2): c2 += 1
-        else: assert(False)
-    if(c0 == c1 == c2):
-        print(0)
+    s1, s2 = readstrs()
+    n1, n2 = len(s1), len(s2)
+    ans = []
+    for i in range(0, n1 - n2 + 1):
+        differ = 0
+        a = s1[i: i + n2]
+        for k in range(n2): differ += (a[k] != s2[k])
+        if(differ <= 1): ans.append(i)
+    if not(ans):
+        print("No Match!")
         return
-    print(max(c1 - c0, c2 - c1, c0 - c2))
+    print(*ans)
 
 
 def main():

@@ -8,6 +8,7 @@
 
 import os
 import sys
+from time import time
 # from collections import *
 # from itertools import *
 # from math import *
@@ -77,17 +78,44 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n, arr = readint(), readarri()
-    c0, c1, c2 = 0, 0, 0
-    for i in arr:
-        if(i % 3 == 0): c0 += 1
-        elif(i % 3 == 1): c1 += 1
-        elif(i % 3 == 2): c2 += 1
-        else: assert(False)
-    if(c0 == c1 == c2):
-        print(0)
-        return
-    print(max(c1 - c0, c2 - c1, c0 - c2))
+    n = readint()
+    if(n == 0):
+        print("0:0")
+    elif(0 < n <= 20):
+        total = n * 9
+        hrs = total // 60
+        total %= 60
+        minutes = total
+        # hrs = '0' + str(hrs) if(len(str(hrs)) == 1) else str(hrs)
+        # if (minutes == 0):
+        #     minutes = '00'
+        # else:
+        #     minutes = str(minutes)
+        print(str(hrs) + ':' + str(minutes))
+    elif(20 < n <= 90):
+        total = (n - 20) * 6
+        total += 20 * 9
+        hrs = total // 60
+        total %= 60
+        minutes = total
+        # hrs = '0' + str(hrs) if (len(str(hrs)) == 1) else str(hrs)
+        # if (minutes == 0):
+        #     minutes = '00'
+        # else:
+        #     minutes = str(minutes)
+        print(str(hrs) + ':' + str(minutes))
+    else:
+        total = (n - 90) * 3
+        total += (70 * 6) + (20 * 9)
+        hrs = total // 60
+        total %= 60
+        minutes = total
+        # hrs = '0' + str(hrs) if (len(str(hrs)) == 1) else str(hrs)
+        # if(minutes == 0):
+        #     minutes = '00'
+        # else:
+        #     minutes = str(minutes)
+        print(str(hrs) + ':' + str(minutes))
 
 
 def main():

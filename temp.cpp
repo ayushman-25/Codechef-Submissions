@@ -23,8 +23,16 @@ template<typename T, typename U> inline void amin(T &x, U y) {if(y < x) x = y;}
 template<typename T, typename U> inline void amax(T &x, U y) {if(x < y) x = y;}
 
 void solve() {
-    
-
+    int n, k, m;
+    cin >> n >> k >> m;
+    vector<int> assistant(n), chef(n);
+    for(int &inp: assistant) cin >> inp;
+    for(int &inp: chef) cin >> inp;
+    int cnt = 0;
+    for(int i = 0 ; i < n; i++) {
+        if(abs(chef[i] - assistant[i]) > k) cnt++;
+    }
+    cout << (cnt < m ? 1 : 0) << "\n";
 }
 
 int main() {

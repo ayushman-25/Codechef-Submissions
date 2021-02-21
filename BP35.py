@@ -77,22 +77,66 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n, arr = readint(), readarri()
-    c0, c1, c2 = 0, 0, 0
-    for i in arr:
-        if(i % 3 == 0): c0 += 1
-        elif(i % 3 == 1): c1 += 1
-        elif(i % 3 == 2): c2 += 1
-        else: assert(False)
-    if(c0 == c1 == c2):
-        print(0)
+    a, x, y, z = readints()
+    X, Y, Z = readarri(), readarri(), readarri()
+    X.sort()
+    Y.sort()
+    Z.sort()
+    if((X[0] + Y[0] + Z[0]) > a):
+        print(-1)
         return
-    print(max(c1 - c0, c2 - c1, c0 - c2))
+    ans = 0
+    for i in range(x):
+        for j in range(y):
+            curr_sum = X[i] + Y[j]
+            # now binary search
+            left, right = 0, z - 1
+            while(left <= right):
+                middle = left + (right - left) // 2
+                if(curr_sum + Z[middle] > a):
+                    right = middle - 1
+                elif(curr_sum + Z[middle] < a):
+                    left = middle + 1
+                    ans = max(ans, curr_sum + Z[middle])
+                else:
+                    ans = max(ans, curr_sum + Z[middle])
+                    break
+    for i in range(y):
+        for j in range(z):
+            curr_sum = Y[i] + Z[j]
+            # now binary search
+            left, right = 0, x - 1
+            while(left <= right):
+                middle = left + (right - left) // 2
+                if(curr_sum + X[middle] > a):
+                    right = middle - 1
+                elif(curr_sum + X[middle] < a):
+                    left = middle + 1
+                    ans = max(ans, curr_sum + X[middle])
+                else:
+                    ans = max(ans, curr_sum + X[middle])
+                    break
+    for i in range(x):
+        for j in range(z):
+            curr_sum = X[i] + Z[j]
+            # now binary search
+            left, right = 0, y - 1
+            while(left <= right):
+                middle = left + (right - left) // 2
+                if(curr_sum + Y[middle] > a):
+                    right = middle - 1
+                elif(curr_sum + Y[middle] < a):
+                    left = middle + 1
+                    ans = max(ans, curr_sum + Y[middle])
+                else:
+                    ans = max(ans, curr_sum + Y[middle])
+                    break
+    print(a - ans)
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
