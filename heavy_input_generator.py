@@ -1,5 +1,12 @@
 from random import *
-t = int(100 + 1)
+t = randint(1, 3)
 print(t)
 for _ in range(t):
-    print(_)
+    n = randint(1, 2)
+    m = randint(1, 2)
+    print(n, m)
+    for i in range(n):
+        strr = ''
+        for j in range(m):
+            strr += choice(['0', '1'])
+        print(strr)

@@ -78,24 +78,34 @@ MOD = int(1e9) + 7
 
 def solve():
     n = readint()
-    h, iq = readarri(), readarri()
-    comb = [[h[i], iq[i]] for i in range(n)]
-    LIS = [1] * n
+    arr = readarri()
+    arr.sort()
+    p1, p2, diff = -1, -1, int(1e9)
     for i in range(1, n):
-        for j in range(0, i):
-            if(comb[i][0] > comb[j][0] and comb[i][1] < comb[j][1] and LIS[i] < LIS[j] + 1):
-                LIS[i] = LIS[j] + 1
-    ans = 0
-    for i in range(n):
-        ans = max(ans, LIS[i])
+        check = arr[i] - arr[i - 1]
+        if(check < diff):
+            diff = check
+            p1 = arr[i]
+            p2 = arr[i - 1]
+    print(p2, p1)
 
 
 def main():
+    # orig_stdin = sys.stdin
+    # orig_stdout = sys.stdout
+    # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
+    # sys.stdin = f1
+    # sys.stdout = f2
     t = 1
     t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
+    # sys.stdin = orig_stdin
+    # sys.stdout = orig_stdout
+    # f1.close()
+    # f2.close()
 
 
 if __name__ == "__main__":

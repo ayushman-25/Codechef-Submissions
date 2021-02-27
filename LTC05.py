@@ -77,25 +77,26 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = readint()
-    h, iq = readarri(), readarri()
-    comb = [[h[i], iq[i]] for i in range(n)]
-    LIS = [1] * n
-    for i in range(1, n):
-        for j in range(0, i):
-            if(comb[i][0] > comb[j][0] and comb[i][1] < comb[j][1] and LIS[i] < LIS[j] + 1):
-                LIS[i] = LIS[j] + 1
-    ans = 0
-    for i in range(n):
-        ans = max(ans, LIS[i])
+    s1, s2, s3 = readstrs()
+    print("Possible" if(sorted(s2) == sorted(s1) and sorted(s3) == sorted(s1)) else "Not Possible")
 
 
 def main():
+    # orig_stdin = sys.stdin
+    # orig_stdout = sys.stdout
+    # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
+    # sys.stdin = f1
+    # sys.stdout = f2
     t = 1
     t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
+    # sys.stdin = orig_stdin
+    # sys.stdout = orig_stdout
+    # f1.close()
+    # f2.close()
 
 
 if __name__ == "__main__":

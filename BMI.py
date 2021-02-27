@@ -1,4 +1,4 @@
-'''
+te'''
 
 * Author : Ayushman Chahar #
 * About  : IT Sophomore    #
@@ -77,25 +77,31 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = readint()
-    h, iq = readarri(), readarri()
-    comb = [[h[i], iq[i]] for i in range(n)]
-    LIS = [1] * n
-    for i in range(1, n):
-        for j in range(0, i):
-            if(comb[i][0] > comb[j][0] and comb[i][1] < comb[j][1] and LIS[i] < LIS[j] + 1):
-                LIS[i] = LIS[j] + 1
-    ans = 0
-    for i in range(n):
-        ans = max(ans, LIS[i])
+    m, h = readints()
+    bmi = m / (h ** 2)
+    if(bmi <= 18):
+        print(1)
+    elif(19 <= bmi <= 24):
+        print(2)
+    elif(25 <= bmi <= 29):
+        print(3)
+    elif(bmi >= 30):
+        print(4)
+    else:
+        assert(False)
 
 
 def main():
+    # orig_stdout = sys.stdout
+    # f = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
+    # sys.stdout = f
     t = 1
     t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
+    # sys.stdout = orig_stdout
+    # f.close()
 
 
 if __name__ == "__main__":

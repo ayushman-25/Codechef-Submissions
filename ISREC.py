@@ -77,25 +77,75 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = readint()
-    h, iq = readarri(), readarri()
-    comb = [[h[i], iq[i]] for i in range(n)]
-    LIS = [1] * n
-    for i in range(1, n):
-        for j in range(0, i):
-            if(comb[i][0] > comb[j][0] and comb[i][1] < comb[j][1] and LIS[i] < LIS[j] + 1):
-                LIS[i] = LIS[j] + 1
-    ans = 0
+    n, m = readints()
+    mat = [list(readstr()) for _ in range(n)]
+    # print(mat)
+    f1, f2, f3, f4 = [], [], [], []
+    cnt1s = 0
     for i in range(n):
-        ans = max(ans, LIS[i])
+        for j in range(m):
+            cnt1s += int(mat[i][j])
+    for i in range(n):
+        for j in range(m):
+            if(mat[i][j] == '1'):
+                f1.append(i)
+                f1.append(j)
+                break
+        if(f1):
+            break
+    if not(f1):
+        print("NO")
+        return
+    for i in range(m):
+        if(mat[f1[0]][m - i - 1] == '1'):
+            f2.append(f1[0])
+            f2.append(m - i - 1)
+            break
+    if not(f2):
+        print("NO")
+        return
+    for i in range(n):
+        for j in range(m):
+            if(mat[n - i - 1][j] == '1'):
+                f3.append(n - i - 1)
+                f3.append(j)
+                break
+        if(f3):
+            break
+    if not(f3):
+        print("NO")
+        return
+    for i in range(m):
+        if(mat[f3[0]][m - i - 1] == '1'):
+            f4.append(f3[0])
+            f4.append(m - i - 1)
+            break
+    if not(f4):
+        print("NO")
+        return
+    # print(f1, f2, f3, f4)
+    c1, c0 = 0, 0
+    for i in range(f1[0], f3[0] + 1):
+        for j in range(f1[1], f2[1] + 1):
+            # print(i, j)
+            if(mat[i][j] == '0'): c0 += 1
+            elif(mat[i][j] == '1'): c1 += 1
+    # print(f1, f2, f3, f4)
+    # print(c1, c0)
+    print("YES" if (c1 == cnt1s and c0 == 0) else "NO")
 
 
 def main():
+    # orig_stdout = sys.stdout
+    # f = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
+    # sys.stdout = f
     t = 1
     t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
+    # sys.stdout = orig_stdout
+    # f.close()
 
 
 if __name__ == "__main__":

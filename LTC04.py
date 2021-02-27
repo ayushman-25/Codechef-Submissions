@@ -74,10 +74,74 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 mod = 998244353
 MOD = int(1e9) + 7
-
+alp = 'abcdefghijklmnopqrstuvwxyz'
+ALP = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 def solve():
-
+    s = readarrs()
+    s1, s2, s3 = s[0], list(s[1]), list(s[2])
+    if(s1 == 'A'):
+        for i in range(len(s2)):
+            if(s2[i] in ALP):
+                s2[i] = alp[ALP.index(s2[i])]
+        for i in range(len(s3)):
+            if(i == 0):
+                if(s3[i] in alp):
+                    s3[i] = ALP[alp.index(s3[i])]
+            else:
+                if(s3[i] in ALP):
+                    s3[i] = alp[ALP.index(s3[i])]
+        print("".join(s2) + "".join(s3))
+    elif(s1 == 'B'):
+        for i in range(len(s2)):
+            if(s2[i] in ALP):
+                s2[i] = alp[ALP.index(s2[i])]
+        for i in range(len(s3)):
+            if(s3[i] in ALP):
+                s3[i] = alp[ALP.index(s3[i])]
+        print("".join(s2) + '_' + "".join(s3))
+    elif(s1 == 'C'):
+        for i in range(len(s2)):
+            if(s2[i] in alp):
+                s2[i] = ALP[alp.index(s2[i])]
+        for i in range(len(s3)):
+            if(s3[i] in alp):
+                s3[i] = ALP[alp.index(s3[i])]
+        print("".join(s2) + '_' + "".join(s3))
+    elif(s1 == 'D'):
+        for i in range(len(s2)):
+            if(i == 0):
+                if(s2[i] in alp):
+                    s2[i] = ALP[alp.index(s2[i])]
+            else:
+                if(s2[i] in ALP):
+                    s2[i] = alp[ALP.index(s2[i])]
+        for i in range(len(s3)):
+            if(i == 0):
+                if(s3[i] in alp):
+                    s3[i] = ALP[alp.index(s3[i])]
+            else:
+                if(s3[i] in ALP):
+                    s3[i] = alp[ALP.index(s3[i])]
+        print("".join(s2) + '-' + "".join(s3))
+    elif(s1 == 'E' or s1 == 'F' or s1== 'G' or s1 == 'H'):
+        for i in range(len(s2)):
+            if(not(i & 1)):
+                if(s2[i] in ALP):
+                    s2[i] = alp[ALP.index(s2[i])]
+            else:
+                if(s2[i] in alp):
+                    s2[i] = ALP[alp.index(s2[i])]
+        for i in range(len(s3)):
+            if(not(i & 1)):
+                if(s3[i] in ALP):
+                    s3[i] = alp[ALP.index(s3[i])]
+            else:
+                if(s3[i] in alp):
+                    s3[i] = ALP[alp.index(s3[i])]
+        print("".join(s2) + '|' + "".join(s3))
+    else:
+        assert(False)
 
 
 def main():
