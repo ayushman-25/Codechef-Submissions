@@ -8,9 +8,8 @@
 
 import os
 import sys
-from random import *
-# from collections import
-from itertools import permutations
+# from collections import *
+# from itertools import *
 # from math import *
 # from queue import *
 # from heapq import *
@@ -78,49 +77,51 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    # n = 10
-    # q = randint(9, 50)
-    # print(n, q)
-    # start = 1
-    # for _ in range(n - 1):
-    #     print(start, start + 1)
-    #     start += 1
-    # for _ in range(q):
-    #     choose = choice([1, 2])
-    #     if(choose == 1):
-    #         print(1, randint(1, n), randint(1, n))
-    #     else:
-    #         print(2, randint(1, n))
+    n = readint()
+    arr = [readstr() for _ in range(n)]
+    siz = len(arr[0])
+    all_possible = arr
+    ans = [-1 for _ in range(len(all_possible))]
+    start = 0
+    for i in all_possible:
+        check_ans = 0
+        bahar = False
+        for j in arr:
+            if(j == i): continue
+            else:
+                curr_req = 0
+                converted = False
+                for k in range(siz):
+                    curr_req += 1
+                    if(j[k+1:] + j[:k+1] == i):
+                        converted = True
+                        break
+                if(not(converted)):
+                    bahar = True
+                    break
+                else:
+                    check_ans += curr_req
+        if(not(bahar)):
+            ans[start] = check_ans
+        start += 1
+    if all(i == -1 for i in ans):
+        print(-1)
+        return
+    print(min(ans))
 
-    print(20)
-    for _ in range(20):
-        n = randint(13, 15)
-        x = randint(4, 6)
-        find1 = randint(1, n)
-        find2 = randint(find1, n)
-        print(n, x, find1, find2)
-        for i in range(x):
-            a = randint(1, n)
-            b = randint(1, n)
-            c = randint(1, n)
-            d = randint(1, n)
-            print(a, b, c, d)
 
 def main():
     # orig_stdin = sys.stdin
     # orig_stdout = sys.stdout
     # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
-    f2 = open("D:\\n1\\New folder\\cp\\in.txt", 'w')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
     # sys.stdin = f1
     # sys.stdout = f2
     t = 1
-
-    # t = randint(100, 200)
-    # print(t)
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
-    print()
     # sys.stdin = orig_stdin
     # sys.stdout = orig_stdout
     # f1.close()

@@ -74,10 +74,13 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 mod = 998244353
 MOD = int(1e9) + 7
-check_arr, mymap, queries = [0 for _ in range(int(1e5) + 69)], defaultdict(int), set()
+check_arr, mymap, queries = [0 for _ in range(int(1e6) + 69)], defaultdict(int), set()
+arr = list()
+n, q, m, l, r = None, None, None, None, None
 
 
-def ans(m):
+def ans():
+    global m, check_arr
     games_won = 0
     for i in range(1, m + 1):
         check_arr[i] += check_arr[i - 1]
@@ -87,22 +90,22 @@ def ans(m):
 
 def clear_global():
     global check_arr, mymap, queries
-    check_arr = [0 for _ in range(int(1e5) + 69)]
+    check_arr = [0 for _ in range(int(1e6) + 69)]
     mymap = defaultdict(int)
     queries = set()
 
 
-def checks(l, r, m, arr):
-    global check_arr, mymap
-    check_arr[arr[l]] += 1
+def checks():
+    global check_arr, mymap, l, r, m, arr
+    check_arr[arr[l - 1]] += 1
     check_arr[m + 1] -= 1
-    if (arr[r] <= m): queries.add((arr[l], arr[r])); mymap[(arr[l], arr[r])] += 1
-    elif (arr[r] > m and arr[l] <= m): pass
+    if (arr[r - 1] <= m): queries.add((arr[l - 1], arr[r - 1])); mymap[(arr[l - 1], arr[r - 1])] += 1
+    elif (arr[r - 1] > m and arr[l - 1] <= m): pass
     else: assert(False)
 
 
-def find_eff(m):
-    global check_arr, mymap
+def find_eff():
+    global check_arr, mymap, m
     for z in queries:
         val = z[1] + (z[0] << 1)
         check_arr[z[1] + z[0]] -= mymap[z]
@@ -114,16 +117,17 @@ def find_eff(m):
 
 
 def solve():
+    global n, q, m, arr, l, r
     n, q, m = readints()
     arr = readarri()
     for _ in range(q):
         l, r = readints()
         if (arr[l - 1] > m): continue
-        checks(l - 1, r - 1, m, arr)
+        checks()
     # solving queries offline for more efficient approach
-    find_eff(m)
+    find_eff()
     # print(max(accumulate(check_arr)))
-    ans(m)
+    ans()
     clear_global()
 
 

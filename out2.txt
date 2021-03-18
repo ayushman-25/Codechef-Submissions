@@ -1,1 +1,9 @@
-Case #1: 137
+Case #1: YES
+Case #2: NO
+Case #3: NO
+Case #4: YES
+Case #5: NO
+Case #6: YES
+Case #7: NO
+Case #8: YES
+Case #9: NO

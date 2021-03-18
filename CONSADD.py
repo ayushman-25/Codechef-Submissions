@@ -1,4 +1,4 @@
-'''
+lgasm'''
 
 * Author : Ayushman Chahar #
 * About  : IT Sophomore    #
@@ -8,9 +8,8 @@
 
 import os
 import sys
-from random import *
-# from collections import
-from itertools import permutations
+# from collections import *
+# from itertools import *
 # from math import *
 # from queue import *
 # from heapq import *
@@ -75,52 +74,87 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 mod = 998244353
 MOD = int(1e9) + 7
+a, b = list(), list()
+r, c, x = None, None, None
+
+
+def column_check():
+    global a, b, r, c, x
+    for i in range(c):
+        for j in range(1 + r - x):
+            if (a[j][i] != b[j][i]):
+                for k in range(1, x): a[j + k][i] += b[j][i] - a[j][i]
+                a[j][i] = b[j][i]
+
+
+def row_check():
+    global a, b, r, c, x
+    for i in range(r):
+        for j in range(1 + c - x):
+            if (a[i][j] != b[i][j]):
+                for k in range(1, x): a[i][j + k] += b[i][j] - a[i][j]
+                a[i][j] = b[i][j]
 
 
 def solve():
-    # n = 10
-    # q = randint(9, 50)
-    # print(n, q)
-    # start = 1
-    # for _ in range(n - 1):
-    #     print(start, start + 1)
-    #     start += 1
-    # for _ in range(q):
-    #     choose = choice([1, 2])
-    #     if(choose == 1):
-    #         print(1, randint(1, n), randint(1, n))
-    #     else:
-    #         print(2, randint(1, n))
+    global r, c, x, a, b
+    r, c, x = readints()
+    a = [readarri() for _ in range(r)]
+    b = [readarri() for _ in range(r)]
+    if(c >= x):
+        if(r < x):
+            row_check()
+            for i in range(r):
+                for j in range(c):
+                    if (a[i][j] != b[i][j]):
+                        print("No")
+                        return
+            print("Yes")
+            return
+        else:
+            row_check()
+            column_check()
+            for i in range(r):
+                for j in range(c):
+                    if (a[i][j] != b[i][j]):
+                        print("No")
+                        return
+            print("Yes")
+            return
+    elif(c < x):
+        if(r < x):
+            for i in range(r):
+                for j in range(c):
+                    if (a[i][j] != b[i][j]):
+                        print("No")
+                        return
+            print("Yes")
+            return
+        else:
+            column_check()
+            for i in range(r):
+                for j in range(c):
+                    if (a[i][j] != b[i][j]):
+                        print("No")
+                        return
+            print("Yes")
+            return
 
-    print(20)
-    for _ in range(20):
-        n = randint(13, 15)
-        x = randint(4, 6)
-        find1 = randint(1, n)
-        find2 = randint(find1, n)
-        print(n, x, find1, find2)
-        for i in range(x):
-            a = randint(1, n)
-            b = randint(1, n)
-            c = randint(1, n)
-            d = randint(1, n)
-            print(a, b, c, d)
+    assert (False)
+
 
 def main():
     # orig_stdin = sys.stdin
     # orig_stdout = sys.stdout
     # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
-    f2 = open("D:\\n1\\New folder\\cp\\in.txt", 'w')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
     # sys.stdin = f1
     # sys.stdout = f2
     t = 1
-
-    # t = randint(100, 200)
-    # print(t)
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
-    print()
     # sys.stdin = orig_stdin
     # sys.stdout = orig_stdout
     # f1.close()

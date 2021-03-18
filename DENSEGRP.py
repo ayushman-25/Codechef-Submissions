@@ -8,9 +8,8 @@
 
 import os
 import sys
-from random import *
-# from collections import
-from itertools import permutations
+# from collections import *
+# from itertools import *
 # from math import *
 # from queue import *
 # from heapq import *
@@ -78,49 +77,52 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    # n = 10
-    # q = randint(9, 50)
-    # print(n, q)
-    # start = 1
-    # for _ in range(n - 1):
-    #     print(start, start + 1)
-    #     start += 1
-    # for _ in range(q):
-    #     choose = choice([1, 2])
-    #     if(choose == 1):
-    #         print(1, randint(1, n), randint(1, n))
-    #     else:
-    #         print(2, randint(1, n))
-
-    print(20)
-    for _ in range(20):
-        n = randint(13, 15)
-        x = randint(4, 6)
-        find1 = randint(1, n)
-        find2 = randint(find1, n)
-        print(n, x, find1, find2)
-        for i in range(x):
-            a = randint(1, n)
-            b = randint(1, n)
-            c = randint(1, n)
-            d = randint(1, n)
-            print(a, b, c, d)
+    n, m, x, y = readints()
+    ans, temp, lq1 = -1, 0, 1
+    q1 = [x]
+    q2 = q1.copy()
+    ranges = [readarri() for _ in range(m)]
+    check_4_each_lr = [0 for _ in range(m)]
+    if(x == y):
+        print(0)
+        return
+    while(1):
+        mark_i = [i for i in range(m) if(not(check_4_each_lr[i])) if any(q2[j] >= ranges[i][0] and q1[j] <= ranges[i][1] for j in range(lq1))]
+        # mark_i = []
+        # for i in range(m):
+        #     if(not(check_4_each_lr[i])):
+        #         for j in range(lq1):
+        #             if (q2[j] >= ranges[i][0] and q1[j] <= ranges[i][1]):
+        #                 mark_i.append(i)
+        #                 break
+        q1.clear()
+        q2.clear()
+        for i in mark_i:
+            if(ranges[i][2] <= y and ranges[i][3] >= y):
+                ans = temp + 1
+            check_4_each_lr[i] = 1
+        lq1 &= 0
+        for i in mark_i:
+            q1.append(ranges[i][2])
+            q2.append(ranges[i][3])
+            lq1 += 1
+        temp += 1
+        if((lq1 == 0) or ans != -1):
+            print(ans)
+            return
 
 def main():
     # orig_stdin = sys.stdin
     # orig_stdout = sys.stdout
     # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
-    f2 = open("D:\\n1\\New folder\\cp\\in.txt", 'w')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
     # sys.stdin = f1
     # sys.stdout = f2
     t = 1
-
-    # t = randint(100, 200)
-    # print(t)
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
-    print()
     # sys.stdin = orig_stdin
     # sys.stdout = orig_stdout
     # f1.close()

@@ -8,9 +8,8 @@
 
 import os
 import sys
-from random import *
-# from collections import
-from itertools import permutations
+# from collections import *
+# from itertools import *
 # from math import *
 # from queue import *
 # from heapq import *
@@ -78,49 +77,48 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    # n = 10
-    # q = randint(9, 50)
-    # print(n, q)
-    # start = 1
-    # for _ in range(n - 1):
-    #     print(start, start + 1)
-    #     start += 1
-    # for _ in range(q):
-    #     choose = choice([1, 2])
-    #     if(choose == 1):
-    #         print(1, randint(1, n), randint(1, n))
-    #     else:
-    #         print(2, randint(1, n))
+    mat = [readarri() for _ in range(6)]
+    if(mat[0][0] == 1 or mat[-1][-1] == 1):
+        print("No")
+        return
+    adj = [set() for _ in range(36)]
+    for i in range(1, 5):
+        for j in range(6):
+            if not(mat[i - 1][j]): adj[6 * i + j].add(6 * (i - 1) + j); adj[6 * (i - 1) - j].add(6 * i + j)
+            if not(mat[i + 1][j]): adj[6 * i + j].add(6 * (i + 1) + j); adj[6 * (i + 1) - j].add(6 * i + j)
+            if (j == 0):
+                if not(mat[i][j + 1]): adj[6 * i + j].add(6 * i + j + 1); adj[6 * i + j + 1].add(6 * i + j)
+            elif(j == 5):
+                if not(mat[i][j - 1]): adj[6 * i + j].add(6 * i + j - 1);  adj[6 * i + j - 1].add(6 * i + j)
+            else:
+                if not(mat[i][j - 1]): adj[6 * i - j].add(6 * i + j - 1); adj[6 * i + j - 1].add(6 * i + j)
+                if not(mat[i][j + 1]): adj[6 * i - j].add(6 * i - j + 1); adj[6 * i - j + 1].add(6 * i + j)
+    queue = [0]
+    visited = [0 for _ in range(36)]
+    while(queue):
+        parent = queue.pop(0)
+        visited[parent] = 1
+        if(parent == 35):
+            print("Yes")
+            return
+        for i in adj[parent]:
+            if(not(visited[i])):
+                queue.append(i)
+    print("No")
 
-    print(20)
-    for _ in range(20):
-        n = randint(13, 15)
-        x = randint(4, 6)
-        find1 = randint(1, n)
-        find2 = randint(find1, n)
-        print(n, x, find1, find2)
-        for i in range(x):
-            a = randint(1, n)
-            b = randint(1, n)
-            c = randint(1, n)
-            d = randint(1, n)
-            print(a, b, c, d)
 
 def main():
     # orig_stdin = sys.stdin
     # orig_stdout = sys.stdout
     # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
-    f2 = open("D:\\n1\\New folder\\cp\\in.txt", 'w')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
     # sys.stdin = f1
     # sys.stdout = f2
     t = 1
-
-    # t = randint(100, 200)
-    # print(t)
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
-    print()
     # sys.stdin = orig_stdin
     # sys.stdout = orig_stdout
     # f1.close()

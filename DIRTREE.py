@@ -8,9 +8,8 @@
 
 import os
 import sys
-from random import *
-# from collections import
-from itertools import permutations
+# from collections import *
+# from itertools import *
 # from math import *
 # from queue import *
 # from heapq import *
@@ -77,50 +76,95 @@ mod = 998244353
 MOD = int(1e9) + 7
 
 
-def solve():
-    # n = 10
-    # q = randint(9, 50)
-    # print(n, q)
-    # start = 1
-    # for _ in range(n - 1):
-    #     print(start, start + 1)
-    #     start += 1
-    # for _ in range(q):
-    #     choose = choice([1, 2])
-    #     if(choose == 1):
-    #         print(1, randint(1, n), randint(1, n))
-    #     else:
-    #         print(2, randint(1, n))
+sys.setrecursionlimit(int(1e6) + 69)
+height, euler, first, segtree, visited = [], [], [], [], []
+n = None
 
-    print(20)
-    for _ in range(20):
-        n = randint(13, 15)
-        x = randint(4, 6)
-        find1 = randint(1, n)
-        find2 = randint(find1, n)
-        print(n, x, find1, find2)
-        for i in range(x):
-            a = randint(1, n)
-            b = randint(1, n)
-            c = randint(1, n)
-            d = randint(1, n)
-            print(a, b, c, d)
+
+def dfs(adj, node, h=0):
+    global visited, height, euler
+    visited[node] = 1
+    height[node] = h
+    first[node] = len(euler)
+    euler.append(node)
+    for i in adj[node]:
+        if(not (visited[i])):
+            dfs(adj, i, h + 1)
+            euler.append(node)
+
+
+def build(node, b, e):
+    global segtree, euler, height
+    if (b == e): segtree[node] = euler[b]
+    else:
+        mid = (b + e) >> 1
+        build(node << 1, b, mid)
+        build(node << 1 | 1, mid + 1, e)
+        l = segtree[node << 1]
+        r = segtree[node << 1 | 1]
+        segtree[node] = l if (height[l] < height[r]) else r
+
+
+def query(node, b, e, L, R):
+    global segtree, height
+    if (b > R or e < L): return -1
+    if (b >= L and e <= R): return segtree[node]
+    mid = (b + e) >> 1
+    left = query(node << 1, b, mid, L, R)
+    right = query(node << 1 | 1, mid + 1, e, L, R)
+    if (left == -1): return right
+    if (right == -1): return left
+    return left if (height[left] < height[right]) else right
+
+
+def preC(adj, root=0):
+    global height, euler, first, segtree, visited, n
+    n = len(adj)
+    height = [0 for _ in range(n)]
+    first = [0 for _ in range(n)]
+    visited = [0 for _ in range(n)]
+    dfs(adj, root)
+    m = len(euler)
+    segtree = [0 for _ in range(m * 4)]
+    build(1, 0, m - 1)
+
+
+def lca(u, v):
+    global first, euler, height
+    left, right = first[u], first[v]
+    right = first[v]
+    if (left > right): left, right = right, left
+    if (height[u] < height[v] and query(1, 0, len(euler) - 1, left, right) == u):
+        return 1
+    return 0
+
+
+
+def solve():
+    n, q = readints()
+    adj = [[] for _ in range(n)]
+    for _ in range(n - 1):
+        a, b = readints()
+        adj[a - 1].append(b - 1)
+        adj[b - 1].append(a - 1)
+    preC(adj)
+    for _ in range(q):
+        a, b = readints()
+        print("YES" if(lca(a - 1, b - 1)) else "NO")
+
 
 def main():
     # orig_stdin = sys.stdin
     # orig_stdout = sys.stdout
     # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
-    f2 = open("D:\\n1\\New folder\\cp\\in.txt", 'w')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
     # sys.stdin = f1
     # sys.stdout = f2
     t = 1
-
-    # t = randint(100, 200)
-    # print(t)
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
-    print()
     # sys.stdin = orig_stdin
     # sys.stdout = orig_stdout
     # f1.close()
