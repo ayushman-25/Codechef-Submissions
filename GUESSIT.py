@@ -8,9 +8,8 @@
 
 import os
 import sys
-from random import *
-# from collections import
-from itertools import permutations
+# from collections import *
+# from itertools import *
 # from math import *
 # from queue import *
 # from heapq import *
@@ -64,7 +63,7 @@ class IOWrapper(IOBase):
         self.readline = lambda: self.buffer.readline().decode("ascii")
 
 
-sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+# sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
 input = lambda: sys.stdin.readline().rstrip("\r\n")
 readint = lambda: int(sys.stdin.readline().rstrip("\r\n"))
 readints = lambda: map(int, sys.stdin.readline().rstrip("\r\n").split())
@@ -75,29 +74,34 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 mod = 998244353
 MOD = int(1e9) + 7
+possible = [i for i in range(1, int(1e6) + 1) if(int(i ** (1 / 2)) == i ** (1 / 2))]
 
 
 def solve():
-    n = randint(1, int(1e3))
-    m = randint(1, int(1e3))
-    k = randint(1, int(1e9))
-    print(n, m, k)
+    global possible
+    for i in possible:
+        print(i, flush=True)
+        ask = readint()
+        if(ask == 0):
+            continue
+        elif(ask == 1):
+            return
+        else:
+            raise("Galti hogyi re bava")
+
 
 def main():
     # orig_stdin = sys.stdin
     # orig_stdout = sys.stdout
     # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
-    # f2 = open("D:\\n1\\New folder\\cp\\in.txt", 'w')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
     # sys.stdin = f1
     # sys.stdout = f2
-    t = 20
-
-    # t = randint(100, 200)
-    print(t)
+    t = 1
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
-    # print()
     # sys.stdin = orig_stdin
     # sys.stdout = orig_stdout
     # f1.close()

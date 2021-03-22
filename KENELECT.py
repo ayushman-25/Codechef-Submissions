@@ -8,10 +8,9 @@
 
 import os
 import sys
-from random import *
-# from collections import
-from itertools import permutations
-# from math import *
+from collections import Counter
+# from itertools import *
+from math import factorial
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -77,27 +76,39 @@ mod = 998244353
 MOD = int(1e9) + 7
 
 
+def add(val1, val2):
+    return (val1 % MOD + val2 % MOD) % MOD
+
+
+def mult(val1, val2):
+    return (val1 % MOD * val2 % MOD) % MOD
+
+
 def solve():
-    n = randint(1, int(1e3))
-    m = randint(1, int(1e3))
-    k = randint(1, int(1e9))
-    print(n, m, k)
+    n, p = readints()
+    arr = readarri()
+    arr.sort(reverse=True)
+    assert (p <= n)
+    N, R = arr.count(arr[p - 1]), arr[:p].count(arr[p - 1])
+    num = den = 1
+    for i in range(R):
+        num = (num * (N - i)) % MOD
+        den = (den * (i + 1)) % MOD
+    print(mult(num, pow(den, MOD - 2, MOD)))
+
 
 def main():
     # orig_stdin = sys.stdin
     # orig_stdout = sys.stdout
     # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
-    # f2 = open("D:\\n1\\New folder\\cp\\in.txt", 'w')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
     # sys.stdin = f1
     # sys.stdout = f2
-    t = 20
-
-    # t = randint(100, 200)
-    print(t)
+    t = 1
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
-    # print()
     # sys.stdin = orig_stdin
     # sys.stdout = orig_stdout
     # f1.close()

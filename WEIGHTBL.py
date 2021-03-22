@@ -8,9 +8,8 @@
 
 import os
 import sys
-from random import *
-# from collections import
-from itertools import permutations
+# from collections import *
+# from itertools import *
 # from math import *
 # from queue import *
 # from heapq import *
@@ -78,26 +77,24 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = randint(1, int(1e3))
-    m = randint(1, int(1e3))
-    k = randint(1, int(1e9))
-    print(n, m, k)
+    w1, w2, x1, x2, m = readints()
+    minI = x1 * m
+    maxI = x2 * m
+    print(1 if maxI >= (w2 - w1) >= minI else 0)
+
 
 def main():
     # orig_stdin = sys.stdin
     # orig_stdout = sys.stdout
     # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
-    # f2 = open("D:\\n1\\New folder\\cp\\in.txt", 'w')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
     # sys.stdin = f1
     # sys.stdout = f2
-    t = 20
-
-    # t = randint(100, 200)
-    print(t)
+    t = 1
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
-    # print()
     # sys.stdin = orig_stdin
     # sys.stdout = orig_stdout
     # f1.close()

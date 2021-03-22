@@ -8,9 +8,8 @@
 
 import os
 import sys
-from random import *
-# from collections import
-from itertools import permutations
+# from collections import *
+# from itertools import *
 # from math import *
 # from queue import *
 # from heapq import *
@@ -78,26 +77,44 @@ MOD = int(1e9) + 7
 
 
 def solve():
-    n = randint(1, int(1e3))
-    m = randint(1, int(1e3))
-    k = randint(1, int(1e9))
-    print(n, m, k)
+    s = list(readstr())
+    n = len(s)
+    if(n <= 4):
+        print("".join(s))
+        return
+    p, a, r, t = 0, 0, 0, 0
+    for i in range(n):
+        if(s[i] == 'p'):
+            p = 1
+        elif(s[i] == 'a'):
+            a = 1
+        elif(s[i] == 'r'):
+            r = 1
+        elif(s[i] == 't'):
+            t = 1
+        elif(s[i] == 'y'):
+            if(p == a == r == t == 1):
+                s[i] = 'i'
+                s[i - 1] = 'r'
+                s[i - 2] = 'w'
+            p = a = r = t = 0
+        else:
+            p = a = r = t = 0
+    print("".join(s))
+
 
 def main():
     # orig_stdin = sys.stdin
     # orig_stdout = sys.stdout
     # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
-    # f2 = open("D:\\n1\\New folder\\cp\\in.txt", 'w')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
     # sys.stdin = f1
     # sys.stdout = f2
-    t = 20
-
-    # t = randint(100, 200)
-    print(t)
+    t = 1
+    t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
-    # print()
     # sys.stdin = orig_stdin
     # sys.stdout = orig_stdout
     # f1.close()
