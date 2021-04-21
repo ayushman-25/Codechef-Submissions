@@ -8,7 +8,6 @@
 
 import os
 import sys
-from math import gcd
 from io import BytesIO, IOBase
 
 BUFSIZE = 8192
@@ -61,12 +60,17 @@ class IOWrapper(IOBase):
 sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
 input = lambda: sys.stdin.readline().rstrip("\r\n")
 
+from math import gcd
+
 
 def main():
-    for _ in range(int(input())):
+    t = int(input())
+    assert (t <= int(1e5))
+    for _ in range(t):
         a, b = map(int, input().split())
+        assert (a <= int(1e9) and b <= int(1e9))
         # Using Chicken Mc_Nugget Theorem
-        if(gcd(a, b) == 1):
+        if (gcd(a, b) == 1): # That is CoPrime...
             sys.stdout.write('{}\n'.format(a * b - a - b + 1))
         else:
             sys.stdout.write("IMPOSSIBLE\n")

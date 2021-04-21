@@ -9,8 +9,8 @@
 import os
 import sys
 from random import *
-# from collections import
-from itertools import permutations
+# from collections import *
+# from itertools import *
 # from math import *
 # from queue import *
 # from heapq import *
@@ -73,31 +73,28 @@ readstrs = lambda: map(str, sys.stdin.readline().rstrip("\r\n").split())
 readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
-mod = 998244353
-MOD = int(1e9) + 7
-
 
 def solve():
-    n = randint(1, int(1e3))
-    m = randint(1, int(1e3))
-    k = randint(1, int(1e9))
-    print(n, m, k)
+    t = 10
+    print(t)
+    for _ in range(t):
+        x = randint(1, int(1e1))
+        y = randint(1, int(1e1))
+        z = randint(1, int(1e1))
+        print(x, y, z)
 
 def main():
     # orig_stdin = sys.stdin
     # orig_stdout = sys.stdout
     # f1 = open("D:\\n1\\New folder\\cp\\in.txt", 'r')
-    # f2 = open("D:\\n1\\New folder\\cp\\in.txt", 'w')
+    # f2 = open("D:\\n1\\New folder\\cp\\out.txt", 'w')
     # sys.stdin = f1
     # sys.stdout = f2
-    t = 20
-
-    # t = randint(100, 200)
-    print(t)
+    t = 1
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
-    # print()
     # sys.stdin = orig_stdin
     # sys.stdout = orig_stdout
     # f1.close()

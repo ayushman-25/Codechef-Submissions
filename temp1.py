@@ -1,119 +1,56 @@
-'''
+from math import sqrt
 
-* Author : Ayushman Chahar #
-* About  : IT Sophomore    #
-* Insti  : VIT, Vellore    #
-
-'''
-
-import os
-import sys
-from collections import defaultdict
-# from itertools import *
-# from math import *
-# from queue import *
-# from heapq import *
-# from bisect import *
-from io import BytesIO, IOBase
-
-BUFSIZE = 8192
+def isPrime(n):
+    if (n <= 1): return False
+    if (n <= 3): return True
+    if (n % 2 == 0 or n % 3 == 0): return False
+    i = 5
+    while (i * i <= n):
+        if (n % i == 0 or n % (i + 2) == 0): return False
+        i = i + 6
+    return True
 
 
-class FastIO(IOBase):
-    newlines = 0
+def fPF(n):
+    s = set()
+    while (n % 2 == 0):
+        s.add(2)
+        n = n // 2
+    for i in range(3, int(sqrt(n)), 2):
+        while (n % i == 0):
+            s.add(i)
+            n = n // i
+    if (n > 2):
+        s.add(n)
+    return s
 
-    def __init__(self, file):
-        self._fd = file.fileno()
-        self.buffer = BytesIO()
-        self.writable = "x" in file.mode or "r" not in file.mode
-        self.write = self.buffer.write if self.writable else None
 
-    def read(self):
-        while True:
-            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
-            if not b:
+def fP(n):
+    if (isPrime(n) == False): return -1
+    phi = n - 1
+    p = fPF(phi)
+    for r in range(2, phi + 1):
+        flag = False
+        for it in p:
+            if (pow(r, phi // it, n) == 1):
+                flag = True
                 break
-            ptr = self.buffer.tell()
-            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
-        self.newlines = 0
-        return self.buffer.read()
-
-    def readline(self):
-        while self.newlines == 0:
-            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
-            self.newlines = b.count(b"\n") + (not b)
-            ptr = self.buffer.tell()
-            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
-        self.newlines -= 1
-        return self.buffer.readline()
-
-    def flush(self):
-        if self.writable:
-            os.write(self._fd, self.buffer.getvalue())
-            self.buffer.truncate(0), self.buffer.seek(0)
+        if (flag == False):
+            return r
+    return -1
 
 
-class IOWrapper(IOBase):
-    def __init__(self, file):
-        self.buffer = FastIO(file)
-        self.flush = self.buffer.flush
-        self.writable = self.buffer.writable
-        self.write = lambda s: self.buffer.write(s.encode("ascii"))
-        self.read = lambda: self.buffer.read().decode("ascii")
-        self.readline = lambda: self.buffer.readline().decode("ascii")
+def euler_totient(n):
+    result = n
+    p = 2
+    while (p * p <= n):
+        if (n % p == 0):
+            while (n % p == 0): n = int(n / p)
+            result -= int(result / p)
+        p += 1
+    if (n > 1): result -= int(result / n)
+    return result
 
 
-sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
-input = lambda: sys.stdin.readline().rstrip("\r\n")
-readint = lambda: int(sys.stdin.readline().rstrip("\r\n"))
-readints = lambda: map(int, sys.stdin.readline().rstrip("\r\n").split())
-readstr = lambda: sys.stdin.readline().rstrip("\r\n")
-readstrs = lambda: map(str, sys.stdin.readline().rstrip("\r\n").split())
-readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
-readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
-
-mod = 998244353
-MOD = int(1e9) + 7
-
-
-def solve():
-    n = readint()
-    arr = readarri()
-    visited = [0] * n
-    ans = [-1] * n
-    curr_depth = 1
-    maxx = max(arr)
-    maxi = arr.index(maxx)
-    visited[maxx] = 1
-    ans[maxi] = curr_depth - 1
-    idxx = defaultdict(int)
-    for i in range(n): idxx[arr[i]] = i
-    while(1):
-        if(all(i == 1 for i in visited)):
-            break
-        left = arr[0: maxi]
-        right = arr[1: maxi]
-        for k in sorted(left)[::-1]:
-            if(not(visited[k])):
-                visited[k] = 1
-                ans[idxx[k]] = curr_depth
-                break
-        for k in sorted(right)[::-1]:
-            if(not(visited[k])):
-                visited[k] = 1
-                ans[idxx[k]] = curr_depth
-                break
-        curr_depth += 1
-
-
-
-def main():
-    t = 1
-    t = readint()
-    for _ in range(t):
-        # print("Case #" + str(_ + 1) + ": ", end="")
-        solve()
-
-
-if __name__ == "__main__":
-    main()
+n = int(input())
+print(fP(n), euler_totient(n - 1))

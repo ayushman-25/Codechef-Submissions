@@ -1,51 +1,43 @@
-#include <bits/stdc++.h>
-#define int long long int
+/*
+
+*  Author : Ayushman Chahar   #
+*  About  : IT Sophomore      #
+*  Insti  : VIT, Vellore      #
+
+*/
+
+#pragma GCC optimize("Ofast")  
+#pragma GCC target("avx,avx2,fma") 
+#pragma GCC optimization ("unroll-loops")
+
+#include<bits/stdc++.h>
 using namespace std;
 
-bool decision(bool a, bool b, bool c)
-{
-    if (a == c)
-        return !a;
-    else
-        return b;
+#define MOD 1000000007
+#define mod 998244353
+
+typedef long long int ll;
+typedef unsigned long long int ull;
+
+template<typename T, typename U> inline void amin(T &x, U y) {if(y < x) x = y;}
+template<typename T, typename U> inline void amax(T &x, U y) {if(x < y) x = y;}
+
+void solve() {
+
 }
 
-signed main()
-{
-    int t;
-    cin >> t;
-
-    while (t--)
-    {
-        int n;
-        cin >> n;
-        string s;
-        cin >> s;
-        vector<bool> v;
-        int count = 0;
-        if (s[n - 1] == 'L')
-            v.push_back(0);
-        else
-            v.push_back(1);
-        for (int i = 0; i < n; i++)
-        {
-            if (s[i] == 'L')
-                v.push_back(0);
-            else
-                v.push_back(1);
-        }
-        for (int i = 0; i < v.size() - 3; i++)
-        {
-            if (v[i + 1] == decision(v[i], v[i + 1], v[i + 2]))
-                continue;
-            else
-            {
-                v[i + 1] = decision(v[i], v[i + 1], v[i + 2]);
-                count++;
-            }
-        }
-        cout << count << endl;
+int main() {
+// #ifndef ONLINE_JUDGE
+//  freopen("in.txt", "r", stdin);
+//  freopen("out.txt", "w", stdout);
+// #endif
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr); cout.tie(nullptr);
+    int t = 1, casee = 1;
+    // cin >> t;
+    while(t--) {
+        // cout << "Case #" << casee++ << ": ";
+        solve();
     }
-
     return 0;
 }
