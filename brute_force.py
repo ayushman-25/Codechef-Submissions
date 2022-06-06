@@ -1,13 +1,127 @@
-s, roman = input(), {'M' : 1000, 'D' : 500, 'C' : 100, 'L' : 50, 'X' : 10, 'V' : 5, 'I' : 1}
-arr, curr_cnt, bffr, ans = list(), 1, roman[s[0]], 0
-if('VV' in s or 'LL' in s or 'DD' in s): print("Invalid"); exit(0)
-for i in range(len(s) - 1):
-    if(roman[s[i]] == roman[s[i + 1]]): curr_cnt += 1
-    else:
-        if(roman[s[i + 1]] > roman[s[i]] and  curr_cnt > 2): print("Invalid"); exit(0)
-        else: curr_cnt = 1
-for i in range(1, len(s)):
-    if(roman[s[i]] == roman[s[i - 1]]): bffr += roman[s[i]]
-    else: arr.append(bffr); bffr = roman[s[i]]
-if(bffr): arr.append(bffr)
-print(sum(arr[i] if (arr[i] >= arr[i + 1]) else -arr[i] for i in range(len(arr) - 1)) + arr[-1])
+"""
+
+* Author - Ayushman Chahar
+* About - IT Junior, VIT Vellore
+
+"""
+
+import os
+import sys
+from collections import *
+from itertools import *
+from math import *
+from queue import *
+from heapq import *
+from bisect import *
+from functools import *
+from numpy import *
+from random import *
+from io import BytesIO, IOBase
+
+BUFSIZE = 8192
+
+
+class FastIO(IOBase):
+    newlines = 0
+
+    def __init__(self, file):
+        self._fd = file.fileno()
+        self.buffer = BytesIO()
+        self.writable = "x" in file.mode or "r" not in file.mode
+        self.write = self.buffer.write if self.writable else None
+
+    def read(self):
+        while True:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            if not b:
+                break
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines = 0
+        return self.buffer.read()
+
+    def readline(self):
+        while self.newlines == 0:
+            b = os.read(self._fd, max(os.fstat(self._fd).st_size, BUFSIZE))
+            self.newlines = b.count(b"\n") + (not b)
+            ptr = self.buffer.tell()
+            self.buffer.seek(0, 2), self.buffer.write(b), self.buffer.seek(ptr)
+        self.newlines -= 1
+        return self.buffer.readline()
+
+    def flush(self):
+        if self.writable:
+            os.write(self._fd, self.buffer.getvalue())
+            self.buffer.truncate(0), self.buffer.seek(0)
+
+
+class IOWrapper(IOBase):
+    def __init__(self, file):
+        self.buffer = FastIO(file)
+        self.flush = self.buffer.flush
+        self.writable = self.buffer.writable
+        self.write = lambda s: self.buffer.write(s.encode("ascii"))
+        self.read = lambda: self.buffer.read().decode("ascii")
+        self.readline = lambda: self.buffer.readline().decode("ascii")
+
+
+sys.stdin, sys.stdout = IOWrapper(sys.stdin), IOWrapper(sys.stdout)
+input = lambda: sys.stdin.readline().rstrip("\r\n")
+readint = lambda: int(sys.stdin.readline().rstrip("\r\n"))
+readints = lambda: map(int, sys.stdin.readline().rstrip("\r\n").split())
+readstr = lambda: sys.stdin.readline().rstrip("\r\n")
+readstrs = lambda: map(str, sys.stdin.readline().rstrip("\r\n").split())
+readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
+readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
+
+
+def solve():
+    n, k = readints()
+    arr = readarri()
+    ans = set()
+    for i in range(n):
+        for j in range(i + 1, n + 1):
+            sub = arr[i: j]
+            l = min(sub)
+            r = max(sub)
+            # print(sub)
+            flag = False
+            for x in sub:
+                if sub.count(x) < k:
+                    flag = True
+                    break
+            if not flag:
+                sub = sorted(set(sub))
+                flag = False
+                if len(sub) == 1:
+                    ans.add((len(sub), l, r))
+                else:
+                    # print(sub)
+                    for z in range(1, len(sub)):
+                        if sub[z] - sub[z - 1] != 1:
+                            flag = True
+                            break
+                    if not flag:
+                        ans.add((len(sub), l, r))
+    if not ans:
+        print(-1); return
+    ans = list(ans)
+    ans.sort(reverse=True)
+    neww = list()
+    for i in ans:
+        if i[0] == ans[0][0]:
+            # print(i[1], i[2])
+            neww.append((i[1], i[2]))
+    print(neww)
+
+
+def main():
+    t = 1
+    t = readint()
+    for _ in range(t):
+        # print("Case #" + str(_ + 1) + ": ", end="")
+        solve()
+
+
+if __name__ == "__main__":
+    main()

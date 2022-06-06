@@ -1,0 +1,5 @@
+n = int(input())
+if (n > 5000): print(round(n - (25 * n / 100)))
+elif (3000 <= n <= 4999): print(round(n - (15 * n / 100)))
+elif (1000 <= n <= 2999): print(round(n - (10 * n / 100)))
+else: print(round(n - (5 * n / 100)))

@@ -1,0 +1,1 @@
+print("_".join([input().capitalize() for _ in range(int(input()))]))

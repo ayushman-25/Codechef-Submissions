@@ -1,0 +1,1 @@
+print("Yes" if sorted(input().split()) == sorted(input().split()) else "No")

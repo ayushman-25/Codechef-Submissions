@@ -9,7 +9,7 @@ import os
 import sys
 # from collections import *
 # from itertools import *
-from math import factorial
+# from math import *
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -76,13 +76,12 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    n, k = readints()
-    print(factorial(n + k - 1) // (factorial(k) * factorial(n - 1)))
+    
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

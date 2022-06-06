@@ -10,7 +10,7 @@ import os
 import sys
 # from collections import *
 # from itertools import *
-# from math import *
+from math import log2, ceil
 # from queue import *
 # from heapq import *
 # from bisect import *
@@ -75,84 +75,75 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 mod = 998244353
 MOD = int(1e9) + 7
 
-sys.setrecursionlimit(int(1e5) + 69)
-height, euler, first, segtree, visited = [], [], [], [], []
-n = None
+sys.setrecursionlimit(int(1e6) + 69)
+n = l = timer = None
+adj, up, tin, tout = list(), list(), list(), list()
 
 
-def dfs(adj, node, h=0):
-    global visited, height, euler
-    visited[node] = 1
-    height[node] = h
-    first[node] = len(euler)
-    euler.append(node)
-    for i in adj[node]:
-        if(not (visited[i])):
-            dfs(adj, i, h + 1)
-            euler.append(node)
+def dfs(v, p):
+    global tin, up, tout, timer
+    timer += 1
+    tin[v] = timer
+    up[v][0] = p
+    for i in range(1, l + 1):
+        up[v][i] = up[up[v][i - 1]][i - 1]
+    for i in adj[v]:
+        if (i != p):
+            dfs(i, v)
+    timer += 1
+    tout[v] = timer
 
 
-def build(node, b, e):
-    global segtree, euler, height
-    if (b == e): segtree[node] = euler[b]
-    else:
-        mid = (b + e) >> 1
-        build(node << 1, b, mid)
-        build(node << 1 | 1, mid + 1, e)
-        l = segtree[node << 1]
-        r = segtree[node << 1 | 1]
-        segtree[node] = l if (height[l] < height[r]) else r
-
-
-def query(node, b, e, L, R):
-    global segtree, height
-    if (b > R or e < L): return -1
-    if (b >= L and e <= R): return segtree[node]
-    mid = (b + e) >> 1
-    left = query(node << 1, b, mid, L, R)
-    right = query(node << 1 | 1, mid + 1, e, L, R)
-    if (left == -1): return right
-    if (right == -1): return left
-    return left if (height[left] < height[right]) else right
-
-
-def preC(adj, root=0):
-    global height, euler, first, segtree, visited, n
-    n = len(adj)
-    height = [0 for _ in range(n)]
-    first = [0 for _ in range(n)]
-    visited = [0 for _ in range(n)]
-    dfs(adj, root)
-    m = len(euler)
-    segtree = [0 for _ in range(m * 4)]
-    build(1, 0, m - 1)
+def is_ancestor(u, v):
+    global tin, tout
+    return tin[u] <= tin[v] and tout[u] >= tout[v]
 
 
 def lca(u, v):
-    global first, euler
-    left, right = first[u], first[v]
-    right = first[v]
-    if (left > right): left, right = right, left
-    return query(1, 0, len(euler) - 1, left, right)
+    global l, up
+    if (is_ancestor(u, v)): return u
+    if (is_ancestor(v, u)): return v
+    for i in range(l, -1, -1):
+        if (not is_ancestor(up[u][i], v)):
+            u = up[u][i]
+    return up[u][0]
+
+
+def preprocess(root):
+    global tin, tout, timer, l, up, n
+    tin = [0] * n
+    tout = [0] * n
+    timer = 0
+    l = ceil(log2(n))
+    up = [[0 for _ in range(l + 1)] for _ in range(n)]
+    dfs(root, root)
 
 
 def solve():
+    global n, adj
     n = readint()
     adj = [[] for _ in range(n)]
     for _ in range(n - 1):
         l, r = readints()
-        l -= 1; r -= 1
+        l -= 1;
+        r -= 1
         adj[l].append(r)
         adj[r].append(l)
-    preC(adj)
+    preprocess(0)
     for _ in range(readint()):
         root, u, v = readints()
-        root -= 1; u -= 1; v -= 1
+        root -= 1;
+        u -= 1;
+        v -= 1
         uv, ur, vr = lca(u, v), lca(u, root), lca(v, root)
-        if (uv == ur): print(vr + 1)
-        elif (ur == vr): print(uv + 1)
-        elif (uv == vr): print(ur + 1)
-        else: assert (False)
+        if (uv == ur):
+            print(vr + 1)
+        elif (ur == vr):
+            print(uv + 1)
+        elif (uv == vr):
+            print(ur + 1)
+        else:
+            assert (False)
 
 
 def main():

@@ -10,6 +10,5 @@ for three in range(1, 1000):
             ans.add((three, five))
 if not ans:
     print("Invalid input"); exit(0)
-ans = sorted(ans)
-fin = list(ans[-1])
+fin = list(sorted(ans)[-1])
 print(fin[0], "three's and", fin[1], "five's")

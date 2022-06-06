@@ -1,0 +1,1 @@
+print("Cannot be decided" if (int(input()) % 6 == 1) else "Composite number")

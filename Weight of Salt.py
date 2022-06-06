@@ -1,0 +1,1 @@
+print('%.2f'%(1 / int(input()) * int(input()) * 100 * 1 / int(input()) * int(input())))

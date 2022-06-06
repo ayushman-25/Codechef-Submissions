@@ -93,15 +93,17 @@ def solve():
                 return
             start += 1
     else:
-        if(all(not(int(i)) for i in s)): print(1); return
+        if (all(not (int(i)) for i in s)): print(1); return
         dp0, dp1 = [0 for _ in range(n + 69)], [0 for _ in range(n + 69)]
         nx0, nx1 = [None for _ in range(n + 69)], [None for _ in range(n + 69)]
         for i in range(n):
-            if (int(s[i])): nx1[i] = i
-            else: nx0[i] = i
+            if (int(s[i])):
+                nx1[i] = i
+            else:
+                nx0[i] = i
         for i in range(n - 2, -1, -1):
             if (nx0[i + 1] and nx0[i] == None): nx0[i] = nx0[i + 1]
-        if(nx0[0] == n): print(0); return
+        if (nx0[0] == n): print(0); return
         for i in range(n - 2, -1, -1):
             if (nx1[i + 1] and nx1[i] == None): nx1[i] = nx1[i + 1]
         posi = nx1[0] + 1
@@ -111,17 +113,21 @@ def solve():
         for i in range(n - 1, -1, -1):
             dp0[i] = dp0[i + 1]
             if (nx1[i] < n):
-                if (int(s[i])): pass
-                elif (not(int(s[i]))):
+                if (int(s[i])):
+                    pass
+                elif (not (int(s[i]))):
                     check_val = dp0[nx1[i] + 1]
-                    dp0[i] = max(dp0[i],  check_val + 1)
-                else: assert (False)
+                    dp0[i] = max(dp0[i], check_val + 1)
+                else:
+                    assert (False)
             if (nx0[i] < n):
-                if (not (int(s[i]))): pass
+                if (not (int(s[i]))):
+                    pass
                 elif (int(s[i])):
                     check_val = dp0[nx0[i] + 1]
                     dp0[i] = max(dp0[i], check_val + 1)
-                else: assert (False)
+                else:
+                    assert (False)
         for i in range(n - 1, -1, -1):
             if (nx1[i] < n):
                 check_val = dp0[nx1[i] + 1]
@@ -130,13 +136,18 @@ def solve():
         start_posi, end_posi = 1, dp0[0] + (2 if (dp0[0] != dp1[0]) else 1)
         while (1):
             posi_shift = -1
-            if(start_posi >= end_posi): print(); return
-            if((~(posi - n)) < 0): print(0, end='')
-            elif((~(nx0[posi] - n)) < 0): print(0, end=''); posi_shift = 0
-            elif((~(dp0[nx0[posi] + 1] - dp1[0] + start_posi)) >= 0): print(0, end=''); posi_shift = 0
-            else: print(1, end=''); posi_shift = 1
-            if(posi_shift != -1): posi = 1 + (nx1[posi] if (posi_shift) else nx0[posi])
+            if (start_posi >= end_posi): print(); return
+            if ((~(posi - n)) < 0):
+                print(0, end='')
+            elif ((~(nx0[posi] - n)) < 0):
+                print(0, end=''); posi_shift = 0
+            elif ((~(dp0[nx0[posi] + 1] - dp1[0] + start_posi)) >= 0):
+                print(0, end=''); posi_shift = 0
+            else:
+                print(1, end=''); posi_shift = 1
+            if (posi_shift != -1): posi = 1 + (nx1[posi] if (posi_shift) else nx0[posi])
             start_posi += 1
+            
 
 
 def main():
