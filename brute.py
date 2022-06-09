@@ -66,23 +66,28 @@ readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
 def solve():
-    n, arr = readint(), readarri()
-    bins = list()
-    for i in arr:
-        bins.append(bin(i)[2:][::-1])
-    hmm = list()
-    for i in bins:
-        for j in range(len(i)):
-            if i[j] == '1':
-                hmm.append(j)
-                break
-        for j in range(len(i) - 1, -1, -1):
-            if i[j] == '1':
-                hmm.append(j)
-    hmm.sort()
-    print(hmm)
-    print(hmm[-1] - hmm[0] + 1)
-
+    # n = readint()
+    # k = 6
+    for k in range(0, 17):
+        ans = set()
+        for i in range(0, k + 1):
+            for j in range(0, k + 1):
+                for kk in range(0, k + 1):
+                    for l in range(0, k + 1):
+                        if i + j + kk + l == k:
+                            bits = bin(i).count('1') + bin(j).count('1') + bin(kk).count('1') + bin(l).count('1')
+                            ans.add((bits, tuple(sorted([i, j, kk, l]))))
+        # for i in range(0, k + 1):
+        #     for j in range(0, k + 1):
+        #         for kk in range(0, k + 1):
+        #             if i + j + kk == k:
+        #                 bits = bin(i).count('1') + bin(j).count('1') + bin(kk).count('1')
+        #                 ans.add((bits, tuple(sorted([i, j, kk]))))
+        ans = sorted(ans, reverse=True)
+        for i in ans:
+            if i[0] == ans[0][0]:
+                print(i, 4, k)
+        # print(ans[0][0])
 
 def main():
     t = 1

@@ -6,12 +6,11 @@ print(t)
 alp = 'abcd'
 
 for _ in range(t):
-    n = randint(3,10)
-    print(n)
-    arr = [randint(1, 10) for _ in range(n)]
-    print(*arr)
-    # arr = [randint(1, 30) for _ in range(n)]
-    # print(*arr)
+    from random import *
+    n = randint(5, 20)
+    k = randint(1, n)
+    print(n, k)
+    print("".join([choice(['B', 'W']) for _ in range(n)]))
 
 
 
