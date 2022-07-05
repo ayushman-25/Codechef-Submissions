@@ -64,45 +64,45 @@ readstrs = lambda: map(str, sys.stdin.readline().rstrip("\r\n").split())
 readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
+from itertools import accumulate
+from math import gcd
+
+pre, suf = list(), list()
+
+
+def build(arr):
+    global pre, suf
+    pre = list(accumulate(arr, lambda x, y: gcd(x, y)))
+    suf = list(accumulate(arr[::-1], lambda x, y: gcd(x, y)))[::-1]
+
+
+def query(l, r, n):
+    if l == 0:
+        return suf[r + 1]
+    if r == n - 1:
+        return pre[l - 1]
+    return gcd(pre[l - 1], suf[r + 1])
+
 
 def solve():
-    n, m = readints()
-    mF = -1
-    lM = [m + 1 for _ in range(n)]
-    rM = [-1 for _ in range(n)]
-    for i in range(n - 1, -1, -1):
-        s = readstr()
-        for j in range(0, m + 2):
-            if s[j] == '1':
-                rM[i] = j
-                if mF == -1:
-                    mF = i
-        for j in range(m + 1, -1, -1):
-            if s[j] == '1':
-                lM[i] = j
-    ans = float('inf')
-    # print(lM, rM)
-    for i in range(0, 1 << n - 1):
-        c = r = f = 0
-        while f <= mF:
-            if not r:
-                c += rM[f] - r
-                r = rM[f]
-            else:
-                c += r - lM[f]
-                r = lM[f]
-            if f == mF:
-                break
-            nS = 0 if (i & (1 << f)) == 0 else m + 1
-            c += abs(nS - r) + 1
-            r = nS
-            f += 1
-        ans = min(ans, c)
-    print(ans)
+    global st
+    n, arr = readint(), readarri()
+    build(arr)
+    cnt = 0
+    w_gcd = arr[0]
+    for i in arr[1:]:
+        w_gcd = gcd(w_gcd, i)
+    if w_gcd > 1:
+        print(n); return
+    for i in range(n):
+        if query(i, i, n) != 1:
+            cnt += 1
+    print(cnt)
+
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()

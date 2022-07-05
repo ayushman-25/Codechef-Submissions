@@ -1,55 +1,58 @@
-/*
-
-* Author : Ayushman Chahar
-* About  : IT, Senior
-
-*/
-
-#include <algorithm>
-#include <array>
-#include <bitset>
-#include <cassert>
-#include <chrono>
-#include <cmath>
-#include <cstring>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <numeric>
-#include <queue>
-#include <random>
-#include <set>
-#include <vector>
-
+#include<iostream>
 using namespace std;
 
-typedef long long int ll;
+#define N 1000000007
 
-template<typename T, typename U> inline void amin(T &x, U y) {if (y < x) x = y;}
-template<typename T, typename U> inline void amax(T &x, U y) {if (x < y) x = y;}
+unsigned long moduloInverse[11] = {0};
+unsigned long factorial[501] = {0};
 
-void solve() {
-	int n; cin >> n;
-	vector<int> arr(n);
-	for (int &i : arr) {
-		cin >> i;
-	}
-	int sm = 0;
-	for (int i : arr) {
-		sm += i;
-	}
-	cout << sm << "\n";
+unsigned long exponentiate(unsigned long a, unsigned long p) {
+    if(p == 0) return 1;
+    if(p%2) { // odd
+        unsigned long res = exponentiate(a,(p-1)>>1);
+        res = (res*res)%N;
+        res = (a*res)%N;
+        return res;
+    }
+    // even
+    unsigned long res = exponentiate(a,p>>1);
+    res = (res*res)%N;
+    return res;
 }
 
-int main() {
-  cin.tie(nullptr)->sync_with_stdio(false);
-  int t = 1, casee = 1;
-  // cin >> t;
-  while (t--) {
-    // cout << "Case #" << casee++ << ": ";
-    solve();
-  }
-  // cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n";
-  return 0;
+int main(int argc, char** argv) {
+    // pre-calculate
+    unsigned long start = 1;
+    moduloInverse[start] = 1;
+    for(unsigned long i=2; i<=10; i++){
+        start *= i;
+        moduloInverse[i] = exponentiate(start, N-2);
+    }
+
+    start = 1;
+    factorial[start] = 1;
+    for(unsigned long i=2; i<=500; i++){
+        start = (start*i)%N;
+        factorial[i] = start;
+    }
+
+    int t = 1;
+    string s;
+    // cin >> t;
+    while(t--){
+        cin >> s;
+        int lowCount[26] = {0};
+        int highCount[26] = {0};
+        for(int i=0; i<s.length(); i++){
+            if(s[i] >= 'a' && s[i] <= 'z') lowCount[s[i]-'a']++;
+            if(s[i] >= 'A' && s[i] <= 'Z') highCount[s[i]-'A']++;
+        }
+        
+        unsigned long ways = factorial[s.length()];
+        for(int i=0; i<26; i++){
+            if(lowCount[i] > 0) ways = (ways * moduloInverse[lowCount[i]])%N;
+            if(highCount[i] > 0) ways = (ways * moduloInverse[highCount[i]])%N;
+        }
+        cout << ways << endl;
+    }
 }

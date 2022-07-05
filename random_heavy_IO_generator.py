@@ -3,14 +3,14 @@ from random import *
 t = 10
 print(t)
 
-alp = 'abcd'
+alp = 'abcdefghijklmnopqrstuvwxyz'
+ALP = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 for _ in range(t):
-    from random import *
-    n = randint(5, 20)
-    k = randint(1, n)
-    print(n, k)
-    print("".join([choice(['B', 'W']) for _ in range(n)]))
+    n = 5
+    s = "".join([choice(['(', ')']) for i in range(n)])
+    print(n)
+    print(s)
 
 
 

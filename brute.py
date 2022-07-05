@@ -65,29 +65,22 @@ readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
+
 def solve():
-    # n = readint()
-    # k = 6
-    for k in range(0, 17):
-        ans = set()
-        for i in range(0, k + 1):
-            for j in range(0, k + 1):
-                for kk in range(0, k + 1):
-                    for l in range(0, k + 1):
-                        if i + j + kk + l == k:
-                            bits = bin(i).count('1') + bin(j).count('1') + bin(kk).count('1') + bin(l).count('1')
-                            ans.add((bits, tuple(sorted([i, j, kk, l]))))
-        # for i in range(0, k + 1):
-        #     for j in range(0, k + 1):
-        #         for kk in range(0, k + 1):
-        #             if i + j + kk == k:
-        #                 bits = bin(i).count('1') + bin(j).count('1') + bin(kk).count('1')
-        #                 ans.add((bits, tuple(sorted([i, j, kk]))))
-        ans = sorted(ans, reverse=True)
-        for i in ans:
-            if i[0] == ans[0][0]:
-                print(i, 4, k)
-        # print(ans[0][0])
+    n, m = readints()
+    arr = [readarri() for _ in range(n)]
+    for i in range(n - 2, -1, -1):
+        for j in range(m):
+            min1 = arr[i + 1][j] + arr[i][j]
+            min2 = float("inf")
+            min3 = float("inf")
+            if 0 <= j - 1 < m and 0 <= i + 1 <= n:
+                min2 = arr[i + 1][j - 1] + arr[i][j]
+            if 0 <= j + 1 < m and 0 <= i + 1 <= n:
+                min3 = arr[i + 1][j + 1] + arr[i][j]
+            arr[i][j] = min(min1, min2, min3)
+    print(min(arr[0]))
+
 
 def main():
     t = 1

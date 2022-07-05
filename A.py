@@ -6,7 +6,6 @@
 """
 
 import os, sys
-from collections import defaultdict
 from io import BytesIO, IOBase
 
 BUFSIZE = 8192
@@ -65,56 +64,35 @@ readstrs = lambda: map(str, sys.stdin.readline().rstrip("\r\n").split())
 readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
-start = 0
-mersenne = list()
-while 1:
-    if 2 ** start - 1 > 1073741824:
-        break
-    mersenne.append(2 ** start - 1)
-    start += 1
-
-
-
-def brute(n, k, my_ans):
-
-
+ALP = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 
 def solve():
-    n, k = readints()
-    if k <= n:
-        print(k); return
-    ans = 0
-    for i in range(len(mersenne)):
-        store = defaultdict(int)
-        spaces_left = n
-        if n * mersenne[i] < k:
-            continue
-        elif n * mersenne[i] == k:
-            ans = max(ans, n * bin(mersenne[i]).count('1'))
-        start = i
-        orig_k = k
-        while 1:
-            if spaces_left == 0:
+    n = readint()
+    spaces = n
+    ans = list()
+    start = 1
+    for i in range(1, n + 2):
+        ans.append(list(" " * spaces + "*" * start))
+        start += 2
+        spaces -= 1
+    for i in ans[:-1][::-1]:
+        ans.append(i[:])
+    l = r = 0
+    for i in range(len(ans)):
+        for j in range(len(ans[i]) - 1, -1, -1):
+            if ans[i][j] == '*':
+                ans[i][j] = ALP[r]
                 break
-            if mersenne[start] == 0:
-                store[0] = spaces_left
-                spaces_left = 0
-                continue
-            store[mersenne[start]] = k // mersenne[start]
-            spaces_left -= k // mersenne[start]
-            k -= k // mersenne[start] * mersenne[start]
-            start -= 1
-        k = orig_k
-        ans = max(ans, sum([store[i] * bin(i).count('1') for i in store.keys()]))
-        if mersenne[i] > k:
-            break
-    for po in range(0, 35):
-        po = 2 ** po - 1
-        hmm = k - po * (n - 1)
-        if hmm >= 0:
-            ans = max(ans, ((n - 1) * bin(po).count('1') + bin(hmm).count('1')))
-    print(ans)
+        if i < len(ans) - 1:
+            for j in range(len(ans[i])):
+                if ans[i][j] == '*':
+                    ans[i][j] = ALP[l]
+                    break
+        l = (l + 1) % 26
+        r = (r - 1) % 26
+    for i in ans:
+        print("".join(i))
 
 
 def main():

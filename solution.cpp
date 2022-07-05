@@ -1,55 +1,36 @@
-/*
-
-* Author : Ayushman Chahar
-* About  : IT, Senior
-
-*/
-
-#include <algorithm>
-#include <array>
-#include <bitset>
-#include <cassert>
-#include <chrono>
-#include <cmath>
-#include <cstring>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <numeric>
-#include <queue>
-#include <random>
-#include <set>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
-
 typedef long long int ll;
 
-template<typename T, typename U> inline void amin(T &x, U y) {if (y < x) x = y;}
-template<typename T, typename U> inline void amax(T &x, U y) {if (x < y) x = y;}
+const ll M = 1e9+7;
 
-void solve() {
-	int n; cin >> n;
-	vector<int> arr(n);
-	for (int &i : arr) {
-		cin >> i;
-	}
-	int sm = 0;
-	for (int i : arr) {
-		sm += i;
-	}
-	cout << sm << "\n";
+ll fact(ll n) {
+    if(n <= 1) return 1;
+    return (n % M * fact(n-1) % M) % M;
 }
 
-int main() {
-  cin.tie(nullptr)->sync_with_stdio(false);
-  int t = 1, casee = 1;
-  // cin >> t;
-  while (t--) {
-    // cout << "Case #" << casee++ << ": ";
-    solve();
-  }
-  // cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n";
-  return 0;
+ll solve() {
+   string word; cin>>word;
+   ll n = word.length();
+   unordered_map<char,int> mp;
+   for(ll i=0; i<n; i++) {
+       mp[word[i]]++;
+   }
+   ll ans = fact(n);
+   for(auto itr = mp.begin(); itr != mp.end(); itr++) {
+       ans = ans/fact(itr->second);
+   }
+   return ans;
+}
+
+int main() 
+{   
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+	int t = 1;
+	// cin>>t;
+	
+	while(t--) cout<<solve()<<'\n';
+	
+	return 0;
 }

@@ -30,7 +30,7 @@ template<typename T, typename U> inline void amin(T &x, U y) {if (y < x) x = y;}
 template<typename T, typename U> inline void amax(T &x, U y) {if (x < y) x = y;}
 
 void solve() {
-	cout << "1\n";
+
 }
 
 int main() {
