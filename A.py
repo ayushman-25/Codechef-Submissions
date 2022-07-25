@@ -1,12 +1,19 @@
-"""
+="""
 
-* Author : Ayushman Chahar
-* About  : IT, Senior
+* Author : Ayushman Chahar.
+* About  : IT, 4th Year.
 
 """
 
 import os, sys
 from io import BytesIO, IOBase
+from collections import *
+from itertools import *
+from math import *
+from queue import *
+from heapq import *
+from bisect import *
+from functools import *
 
 BUFSIZE = 8192
 
@@ -64,35 +71,9 @@ readstrs = lambda: map(str, sys.stdin.readline().rstrip("\r\n").split())
 readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
-ALP = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
 
 def solve():
-    n = readint()
-    spaces = n
-    ans = list()
-    start = 1
-    for i in range(1, n + 2):
-        ans.append(list(" " * spaces + "*" * start))
-        start += 2
-        spaces -= 1
-    for i in ans[:-1][::-1]:
-        ans.append(i[:])
-    l = r = 0
-    for i in range(len(ans)):
-        for j in range(len(ans[i]) - 1, -1, -1):
-            if ans[i][j] == '*':
-                ans[i][j] = ALP[r]
-                break
-        if i < len(ans) - 1:
-            for j in range(len(ans[i])):
-                if ans[i][j] == '*':
-                    ans[i][j] = ALP[l]
-                    break
-        l = (l + 1) % 26
-        r = (r - 1) % 26
-    for i in ans:
-        print("".join(i))
+
 
 
 def main():

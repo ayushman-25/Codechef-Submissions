@@ -29,8 +29,27 @@ typedef long long int ll;
 template<typename T, typename U> inline void amin(T &x, U y) {if (y < x) x = y;}
 template<typename T, typename U> inline void amax(T &x, U y) {if (x < y) x = y;}
 
-void solve() {
-
+void solve()
+{
+  int n;
+  cin>>n;
+  vector<int> arr(n, 0);
+  for(int i =0; i<n;i++){
+    int num;
+    cin>>num;
+    arr[i] = num;
+  }
+  sort(arr.begin(), arr.end());
+  int count = 0;
+  for(int i = 0; i<arr.size();i++){
+    if(i + 1 > arr[i]){
+    	// cout << arr[i] << " " << i << "\n";
+      count++;
+      arr.erase(arr.begin() + i);
+      i = 0;
+    }
+  }
+  cout<<count<<endl;
 }
 
 int main() {

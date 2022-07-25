@@ -1,12 +1,12 @@
-"""
-
-* Author : Ayushman Chahar
-* About  : IT, Senior
-
-"""
-
 import os, sys
 from io import BytesIO, IOBase
+from collections import *
+from itertools import *
+from math import *
+from queue import *
+from heapq import *
+from bisect import *
+from functools import *
 
 BUFSIZE = 8192
 
@@ -65,26 +65,12 @@ readarri = lambda: [int(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 readarrs = lambda: [str(_) for _ in sys.stdin.readline().rstrip("\r\n").split()]
 
 
-
 def solve():
-    n, m = readints()
-    arr = [readarri() for _ in range(n)]
-    for i in range(n - 2, -1, -1):
-        for j in range(m):
-            min1 = arr[i + 1][j] + arr[i][j]
-            min2 = float("inf")
-            min3 = float("inf")
-            if 0 <= j - 1 < m and 0 <= i + 1 <= n:
-                min2 = arr[i + 1][j - 1] + arr[i][j]
-            if 0 <= j + 1 < m and 0 <= i + 1 <= n:
-                min3 = arr[i + 1][j + 1] + arr[i][j]
-            arr[i][j] = min(min1, min2, min3)
-    print(min(arr[0]))
 
 
 def main():
     t = 1
-    t = readint()
+    # t = readint()
     for _ in range(t):
         # print("Case #" + str(_ + 1) + ": ", end="")
         solve()
